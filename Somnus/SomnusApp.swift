@@ -1,3 +1,10 @@
+//
+//  SomnusApp.swift
+//  Somnus
+//
+//  Created by Antoine on 08/10/2024.
+//
+
 import SwiftUI
 import IOKit.pwr_mgt
 
@@ -93,14 +100,14 @@ struct SettingsView: View {
                 Toggle("Prevent Display Sleep", isOn: Binding(
                     get: { viewModel.isDisplaySleepDisabled },
                     set: { newValue in
-                        viewModel.toggleDisplaySleepMode()
+                        viewModel.setDisplaySleepMode(isDisabled: newValue)
                     }
                 ))
 
                 Toggle("Prevent System Sleep", isOn: Binding(
                     get: { viewModel.isSystemSleepDisabled },
                     set: { newValue in
-                        viewModel.toggleSystemSleepMode()
+                        viewModel.setSystemSleepMode(isDisabled: newValue)
                     }
                 ))
             }
@@ -145,6 +152,26 @@ class SomnusViewModel: ObservableObject {
         if result == kIOReturnSuccess {
             isDisplaySleepDisabled = false
         }
+    }
+    
+    func setDisplaySleepMode(isDisabled: Bool) {
+        if isDisabled {
+            disableDisplaySleep()
+            isSystemSleepDisabled = false // Exclusion mutuelle
+        } else {
+            enableDisplaySleep()
+        }
+        updateMenuIcon()
+    }
+
+    func setSystemSleepMode(isDisabled: Bool) {
+        if isDisabled {
+            disableSystemSleep()
+            isDisplaySleepDisabled = false // Exclusion mutuelle
+        } else {
+            enableSystemSleep()
+        }
+        updateMenuIcon()
     }
 
     // Gérer la mise en veille du système avec exclusion mutuelle
