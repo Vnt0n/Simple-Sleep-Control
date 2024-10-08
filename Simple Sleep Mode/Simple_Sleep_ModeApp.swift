@@ -1,5 +1,5 @@
 //
-//  SimpleSleepModeApp.swift
+//  Simple_Sleep_ModeApp.swift
 //  Simple Sleep Mode
 //
 //  Created by Antoine on 08/10/2024.
@@ -124,9 +124,9 @@ struct SettingsView: View {
 
                 Text("Settings")
                     .font(.system(size: 30))
-//                
+//
 //                Spacer()
-//                
+//
 //                Section() {
 //                    Toggle(" Prevent Display Sleep", isOn: Binding(
 //                        get: { viewModel.isDisplaySleepDisabled },
@@ -135,7 +135,7 @@ struct SettingsView: View {
 //                        }
 //                    ))
 //                    .font(.title2)
-//                    
+//
 //                    Toggle(" Prevent System Sleep", isOn: Binding(
 //                        get: { viewModel.isSystemSleepDisabled },
 //                        set: { newValue in

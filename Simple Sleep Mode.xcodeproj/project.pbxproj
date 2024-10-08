@@ -7,32 +7,19 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		71E454F02CB5087100CD5B8C /* Simple Sleep Mode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Sleep Mode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71DF74122CB598AC0056AC16 /* Simple Sleep Mode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Sleep Mode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Simple Sleep Mode" folder in "Simple Sleep Mode" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 71E454EF2CB5087100CD5B8C /* Simple Sleep Mode */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		71E454F22CB5087100CD5B8C /* Simple Sleep Mode */ = {
+		71DF74142CB598AC0056AC16 /* Simple Sleep Mode */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Simple Sleep Mode" folder in "Simple Sleep Mode" target */,
-			);
 			path = "Simple Sleep Mode";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		71E454ED2CB5087100CD5B8C /* Frameworks */ = {
+		71DF740F2CB598AC0056AC16 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +29,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		71E454E72CB5087100CD5B8C = {
+		71DF74092CB598AC0056AC16 = {
 			isa = PBXGroup;
 			children = (
-				71E454F22CB5087100CD5B8C /* Simple Sleep Mode */,
-				71E454F12CB5087100CD5B8C /* Products */,
+				71DF74142CB598AC0056AC16 /* Simple Sleep Mode */,
+				71DF74132CB598AC0056AC16 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		71E454F12CB5087100CD5B8C /* Products */ = {
+		71DF74132CB598AC0056AC16 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71E454F02CB5087100CD5B8C /* Simple Sleep Mode.app */,
+				71DF74122CB598AC0056AC16 /* Simple Sleep Mode.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +48,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		71E454EF2CB5087100CD5B8C /* Simple Sleep Mode */ = {
+		71DF74112CB598AC0056AC16 /* Simple Sleep Mode */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 71E454FF2CB5087200CD5B8C /* Build configuration list for PBXNativeTarget "Simple Sleep Mode" */;
+			buildConfigurationList = 71DF74212CB598AD0056AC16 /* Build configuration list for PBXNativeTarget "Simple Sleep Mode" */;
 			buildPhases = (
-				71E454EC2CB5087100CD5B8C /* Sources */,
-				71E454ED2CB5087100CD5B8C /* Frameworks */,
-				71E454EE2CB5087100CD5B8C /* Resources */,
+				71DF740E2CB598AC0056AC16 /* Sources */,
+				71DF740F2CB598AC0056AC16 /* Frameworks */,
+				71DF74102CB598AC0056AC16 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				71E454F22CB5087100CD5B8C /* Simple Sleep Mode */,
+				71DF74142CB598AC0056AC16 /* Simple Sleep Mode */,
 			);
 			name = "Simple Sleep Mode";
 			packageProductDependencies = (
 			);
-			productName = Somnus;
-			productReference = 71E454F02CB5087100CD5B8C /* Simple Sleep Mode.app */;
+			productName = "Simple Sleep Mode";
+			productReference = 71DF74122CB598AC0056AC16 /* Simple Sleep Mode.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		71E454E82CB5087100CD5B8C /* Project object */ = {
+		71DF740A2CB598AC0056AC16 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					71E454EF2CB5087100CD5B8C = {
+					71DF74112CB598AC0056AC16 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = 71E454EB2CB5087100CD5B8C /* Build configuration list for PBXProject "Simple Sleep Mode" */;
+			buildConfigurationList = 71DF740D2CB598AC0056AC16 /* Build configuration list for PBXProject "Simple Sleep Mode" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 71E454E72CB5087100CD5B8C;
+			mainGroup = 71DF74092CB598AC0056AC16;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 71E454F12CB5087100CD5B8C /* Products */;
+			productRefGroup = 71DF74132CB598AC0056AC16 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				71E454EF2CB5087100CD5B8C /* Simple Sleep Mode */,
+				71DF74112CB598AC0056AC16 /* Simple Sleep Mode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		71E454EE2CB5087100CD5B8C /* Resources */ = {
+		71DF74102CB598AC0056AC16 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +115,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		71E454EC2CB5087100CD5B8C /* Sources */ = {
+		71DF740E2CB598AC0056AC16 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +125,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		71E454FD2CB5087200CD5B8C /* Debug */ = {
+		71DF741F2CB598AD0056AC16 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -201,7 +188,7 @@
 			};
 			name = Debug;
 		};
-		71E454FE2CB5087200CD5B8C /* Release */ = {
+		71DF74202CB598AD0056AC16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -256,23 +243,20 @@
 			};
 			name = Release;
 		};
-		71E455002CB5087200CD5B8C /* Debug */ = {
+		71DF74222CB598AD0056AC16 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Somnus/Somnus.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Simple Sleep Mode/Simple_Sleep_Mode.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"Somnus/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Simple Sleep Mode/Preview Content\"";
 				DEVELOPMENT_TEAM = FHUR5528AA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Somnus/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Simple Sleep Mode";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -280,30 +264,27 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "antoine-chosson.Somnus";
+				PRODUCT_BUNDLE_IDENTIFIER = "antoine-chosson.Simple-Sleep-Mode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		71E455012CB5087200CD5B8C /* Release */ = {
+		71DF74232CB598AD0056AC16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Somnus/Somnus.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Simple Sleep Mode/Simple_Sleep_Mode.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"Somnus/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Simple Sleep Mode/Preview Content\"";
 				DEVELOPMENT_TEAM = FHUR5528AA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Somnus/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Simple Sleep Mode";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -311,7 +292,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "antoine-chosson.Somnus";
+				PRODUCT_BUNDLE_IDENTIFIER = "antoine-chosson.Simple-Sleep-Mode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -321,25 +302,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		71E454EB2CB5087100CD5B8C /* Build configuration list for PBXProject "Simple Sleep Mode" */ = {
+		71DF740D2CB598AC0056AC16 /* Build configuration list for PBXProject "Simple Sleep Mode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				71E454FD2CB5087200CD5B8C /* Debug */,
-				71E454FE2CB5087200CD5B8C /* Release */,
+				71DF741F2CB598AD0056AC16 /* Debug */,
+				71DF74202CB598AD0056AC16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		71E454FF2CB5087200CD5B8C /* Build configuration list for PBXNativeTarget "Simple Sleep Mode" */ = {
+		71DF74212CB598AD0056AC16 /* Build configuration list for PBXNativeTarget "Simple Sleep Mode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				71E455002CB5087200CD5B8C /* Debug */,
-				71E455012CB5087200CD5B8C /* Release */,
+				71DF74222CB598AD0056AC16 /* Debug */,
+				71DF74232CB598AD0056AC16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 71E454E82CB5087100CD5B8C /* Project object */;
+	rootObject = 71DF740A2CB598AC0056AC16 /* Project object */;
 }
