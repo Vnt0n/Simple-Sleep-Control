@@ -1,6 +1,6 @@
 //
-//  SomnusApp.swift
-//  Somnus
+//  SimpleSleepModeApp.swift
+//  Simple Sleep Mode
 //
 //  Created by Antoine on 08/10/2024.
 //
@@ -9,12 +9,12 @@ import SwiftUI
 import IOKit.pwr_mgt
 
 @main
-struct SomnusApp: App {
-    @StateObject private var viewModel = SomnusViewModel()
+struct SimpleSleepModeApp: App {
+    @StateObject private var viewModel = SimpleSleepModeViewModel()
 
     var body: some Scene {
         WindowGroup {
-            SettingsView(viewModel: viewModel)
+            AboutMeView()
         }
         MenuBarExtra {
             VStack {
@@ -46,7 +46,7 @@ struct SomnusApp: App {
                     viewModel.showAboutMe()
                 }) {
                     HStack {
-                        Text("About Somnus")
+                        Text("About Simple Sleep Mode")
                     }
                 }
 
@@ -66,7 +66,7 @@ struct SomnusApp: App {
                     NSApp.terminate(nil)
                 }) {
                     HStack {
-                        Text("Quit Somnus")
+                        Text("Quit Simple Sleep Mode")
                     }
                 }
             }
@@ -78,21 +78,42 @@ struct SomnusApp: App {
 
 // Vue pour l'onglet "About me"
 struct AboutMeView: View {
+    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
+
     var body: some View {
         VStack {
-            Text("About Somnus")
+            
+            Spacer()
+            
+            Text("About Simple Sleep Mode")
                 .font(.title)
                 .padding()
-            Text("This app prevents your Mac from sleeping.")
-                .padding()
+            
+            Spacer()
+            
+            Button(action: {
+                dismiss()
+            }) {
+                Text("OK")
+            }
+            .font(.title3)
+            .bold()
+            .padding()
+            .frame(width: 100)
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .buttonStyle(PlainButtonStyle())
+            
+            Spacer()
         }
-        .frame(width: 300, height: 200)
+        .frame(minWidth: 400, minHeight: 200)
     }
 }
 
 // Vue pour les Settings
 struct SettingsView: View {
-    @ObservedObject var viewModel: SomnusViewModel
+    @ObservedObject var viewModel: SimpleSleepModeViewModel
     @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
 
     var body: some View {
@@ -103,26 +124,26 @@ struct SettingsView: View {
 
                 Text("Settings")
                     .font(.system(size: 30))
-                
-                Spacer()
-                
-                Section() {
-                    Toggle(" Prevent Display Sleep", isOn: Binding(
-                        get: { viewModel.isDisplaySleepDisabled },
-                        set: { newValue in
-                            viewModel.setDisplaySleepMode(isDisabled: newValue)
-                        }
-                    ))
-                    .font(.title2)
-                    
-                    Toggle(" Prevent System Sleep", isOn: Binding(
-                        get: { viewModel.isSystemSleepDisabled },
-                        set: { newValue in
-                            viewModel.setSystemSleepMode(isDisabled: newValue)
-                        }
-                    ))
-                    .font(.title2)
-                }
+//                
+//                Spacer()
+//                
+//                Section() {
+//                    Toggle(" Prevent Display Sleep", isOn: Binding(
+//                        get: { viewModel.isDisplaySleepDisabled },
+//                        set: { newValue in
+//                            viewModel.setDisplaySleepMode(isDisabled: newValue)
+//                        }
+//                    ))
+//                    .font(.title2)
+//                    
+//                    Toggle(" Prevent System Sleep", isOn: Binding(
+//                        get: { viewModel.isSystemSleepDisabled },
+//                        set: { newValue in
+//                            viewModel.setSystemSleepMode(isDisabled: newValue)
+//                        }
+//                    ))
+//                    .font(.title2)
+//                }
                 
                 Spacer()
                 
@@ -146,13 +167,11 @@ struct SettingsView: View {
         }
         .frame(minWidth: 400, minHeight: 200)
         .padding()
-
-        
     }
 }
 
 // VueModel
-class SomnusViewModel: ObservableObject {
+class SimpleSleepModeViewModel: ObservableObject {
     @Published var menuIcon: String = "bolt"
     private var sleepAssertionID: IOPMAssertionID = 0
     private var systemSleepAssertionID: IOPMAssertionID = 0
@@ -247,7 +266,7 @@ class SomnusViewModel: ObservableObject {
         let aboutWindow = NSWindow(contentViewController: aboutView)
         aboutWindow.setContentSize(NSSize(width: 300, height: 200))
         aboutWindow.styleMask = [.titled, .closable, .miniaturizable]
-        aboutWindow.title = "About Somnus"
+        aboutWindow.title = "About Simple Sleep Mode"
         aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
