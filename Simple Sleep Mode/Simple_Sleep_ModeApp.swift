@@ -85,7 +85,7 @@ struct AboutMeView: View {
             
             Spacer()
             
-            Text("About Simple Sleep Mode")
+            Text("Simple Sleep Mode")
                 .font(.title)
                 .padding()
             
@@ -95,14 +95,14 @@ struct AboutMeView: View {
                 dismiss()
             }) {
                 Text("OK")
+                    .font(.title3)
+                    .bold()
+                    .padding()
+                    .frame(width: 120)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
-            .font(.title3)
-            .bold()
-            .padding()
-            .frame(width: 100)
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
             .buttonStyle(PlainButtonStyle())
             
             Spacer()
@@ -124,41 +124,21 @@ struct SettingsView: View {
 
                 Text("Settings")
                     .font(.system(size: 30))
-//
-//                Spacer()
-//
-//                Section() {
-//                    Toggle(" Prevent Display Sleep", isOn: Binding(
-//                        get: { viewModel.isDisplaySleepDisabled },
-//                        set: { newValue in
-//                            viewModel.setDisplaySleepMode(isDisabled: newValue)
-//                        }
-//                    ))
-//                    .font(.title2)
-//
-//                    Toggle(" Prevent System Sleep", isOn: Binding(
-//                        get: { viewModel.isSystemSleepDisabled },
-//                        set: { newValue in
-//                            viewModel.setSystemSleepMode(isDisabled: newValue)
-//                        }
-//                    ))
-//                    .font(.title2)
-//                }
-                
+
                 Spacer()
                 
                 Button(action: {
                     dismiss()
                 }) {
                     Text("OK")
+                        .font(.title3)
+                        .bold()
+                        .padding()
+                        .frame(width: 120)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                 }
-                .font(.title3)
-                .bold()
-                .padding()
-                .frame(width: 100)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
                 .buttonStyle(PlainButtonStyle())
                 
                 Spacer()
