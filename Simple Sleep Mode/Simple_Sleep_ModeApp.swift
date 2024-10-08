@@ -7,6 +7,7 @@
 
 import SwiftUI
 import IOKit.pwr_mgt
+import ServiceManagement
 
 @main
 struct SimpleSleepModeApp: App {
@@ -47,6 +48,18 @@ struct SimpleSleepModeApp: App {
                 }) {
                     HStack {
                         Text("About Simple Sleep Mode")
+                    }
+                }
+                
+                Button(action: {
+                    let launchAtLogin = !viewModel.isLoginItemEnabled
+                    viewModel.setLoginItem(enabled: launchAtLogin)
+                }) {
+                    HStack {
+                        if viewModel.isLoginItemEnabled {
+                            Image(systemName: "checkmark")
+                        }
+                        Text("Open at login")
                     }
                 }
 
@@ -155,10 +168,28 @@ class SimpleSleepModeViewModel: ObservableObject {
     @Published var menuIcon: String = "bolt"
     private var sleepAssertionID: IOPMAssertionID = 0
     private var systemSleepAssertionID: IOPMAssertionID = 0
+    @Published var isLoginItemEnabled: Bool = false
 
     @Published var isDisplaySleepDisabled: Bool = false
     @Published var isSystemSleepDisabled: Bool = false
+    
+    init() {
+        isLoginItemEnabled = SMAppService.mainApp.status == .enabled
+    }
 
+    func setLoginItem(enabled: Bool) {
+        do {
+            if enabled {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+            isLoginItemEnabled = enabled
+        } catch {
+            print("Failed to toggle login item: \(error)")
+        }
+    }
+    
     // Gérer la mise en veille de l'écran avec exclusion mutuelle
     func toggleDisplaySleepMode() {
         if isDisplaySleepDisabled {
