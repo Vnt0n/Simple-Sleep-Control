@@ -7,7 +7,6 @@
 
 import SwiftUI
 import IOKit.pwr_mgt
-import AppKit
 
 @main
 struct SomnusApp: App {
@@ -19,7 +18,6 @@ struct SomnusApp: App {
         }
         MenuBarExtra {
             // Contenu du menu déroulant
-            
             VStack {
                 Button(action: {
                     viewModel.toggleDisplaySleepMode() // Gérer la mise en veille de l'écran
@@ -32,8 +30,6 @@ struct SomnusApp: App {
                     }
                 }
 
-                Divider() // Séparation pour les options du menu
-
                 Button(action: {
                     viewModel.toggleSystemSleepMode() // Gérer la mise en veille du système
                 }) {
@@ -44,9 +40,19 @@ struct SomnusApp: App {
                         Text("Prevent System sleep")
                     }
                 }
-
-                Divider() // Séparation pour les options du menu
                 
+                Divider() // Séparation pour les options du menu
+
+                Button(action: {
+                    viewModel.showAboutMe() // Ouvre la fenêtre AboutMe
+                }) {
+                    HStack {
+                        Text("About Somnus")
+                    }
+                }
+                
+                Divider() // Séparation pour les options du menu
+
                 Button(action: {
                     NSApp.terminate(nil) // Quitte l'application
                 }) {
@@ -54,23 +60,30 @@ struct SomnusApp: App {
                         Text("Quit Somnus")
                     }
                 }
-                
-                Divider() // Séparation pour les options du menu
-
-                Button(action: {
-                    print("Go to ContentView")
-                }) {
-                    HStack {
-                        Text("About me")
-                    }
-                }
-                
             }
             
         } label: {
             // Label pour la barre de menu (icône dynamique)
             Image(systemName: viewModel.menuIcon)
         }
+        Settings {
+            Text("Settings")
+                .frame(minWidth: 800, minHeight: 500)
+        }
+    }
+}
+
+// Vue pour l'onglet "About me"
+struct AboutMeView: View {
+    var body: some View {
+        VStack {
+            Text("About Somnus")
+                .font(.title)
+                .padding()
+            Text("This app prevents your Mac from sleeping.")
+                .padding()
+        }
+        .frame(width: 300, height: 200)
     }
 }
 
@@ -83,6 +96,9 @@ class SomnusViewModel: ObservableObject {
     // Propriétés pour la mise en veille du système
     private var systemSleepAssertionID: IOPMAssertionID = 0
     @Published var isSystemSleepDisabled: Bool = false
+
+    // Fenêtre pour la vue AboutMe
+    private var aboutWindow: NSWindow?
 
     // Fonction pour gérer la mise en veille de l'écran
     func toggleDisplaySleepMode() {
@@ -152,5 +168,20 @@ class SomnusViewModel: ObservableObject {
         if result == kIOReturnSuccess {
             isSystemSleepDisabled = false
         }
+    }
+
+    // Fonction pour afficher la vue AboutMe
+    func showAboutMe() {
+        if aboutWindow == nil {
+            let aboutView = NSHostingController(rootView: AboutMeView())
+            aboutWindow = NSWindow(
+                contentViewController: aboutView
+            )
+            aboutWindow?.setContentSize(NSSize(width: 300, height: 200))
+            aboutWindow?.styleMask = [.titled, .closable, .miniaturizable]
+            aboutWindow?.title = "About Somnus"
+        }
+        aboutWindow?.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true) // Active l'application pour s'assurer que la fenêtre apparaît
     }
 }
