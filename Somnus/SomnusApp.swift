@@ -93,27 +93,61 @@ struct AboutMeView: View {
 // Vue pour les Settings
 struct SettingsView: View {
     @ObservedObject var viewModel: SomnusViewModel
+    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
 
     var body: some View {
         Form {
-            Section(header: Text("Sleep Settings")) {
-                Toggle("Prevent Display Sleep", isOn: Binding(
-                    get: { viewModel.isDisplaySleepDisabled },
-                    set: { newValue in
-                        viewModel.setDisplaySleepMode(isDisabled: newValue)
-                    }
-                ))
+            VStack {
+                
+                Spacer()
 
-                Toggle("Prevent System Sleep", isOn: Binding(
-                    get: { viewModel.isSystemSleepDisabled },
-                    set: { newValue in
-                        viewModel.setSystemSleepMode(isDisabled: newValue)
-                    }
-                ))
+                Text("Settings")
+                    .font(.system(size: 30))
+                
+                Spacer()
+                
+                Section() {
+                    Toggle(" Prevent Display Sleep", isOn: Binding(
+                        get: { viewModel.isDisplaySleepDisabled },
+                        set: { newValue in
+                            viewModel.setDisplaySleepMode(isDisabled: newValue)
+                        }
+                    ))
+                    .font(.title2)
+                    
+                    Toggle(" Prevent System Sleep", isOn: Binding(
+                        get: { viewModel.isSystemSleepDisabled },
+                        set: { newValue in
+                            viewModel.setSystemSleepMode(isDisabled: newValue)
+                        }
+                    ))
+                    .font(.title2)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    dismiss()
+                }) {
+                    Text("OK")
+                }
+                .font(.title3)
+                .bold()
+                .padding()
+                .frame(width: 100)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .buttonStyle(PlainButtonStyle())
+                
+                Spacer()
             }
+
         }
         .frame(minWidth: 400, minHeight: 200)
         .padding()
+
+        
     }
 }
 
