@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Somnus" folder in "Simple Sleep Mode" target */ = {
+		71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Simple Sleep Mode" folder in "Simple Sleep Mode" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -21,12 +21,12 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		71E454F22CB5087100CD5B8C /* Somnus */ = {
+		71E454F22CB5087100CD5B8C /* Simple Sleep Mode */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Somnus" folder in "Simple Sleep Mode" target */,
+				71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Simple Sleep Mode" folder in "Simple Sleep Mode" target */,
 			);
-			path = Somnus;
+			path = "Simple Sleep Mode";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -45,7 +45,7 @@
 		71E454E72CB5087100CD5B8C = {
 			isa = PBXGroup;
 			children = (
-				71E454F22CB5087100CD5B8C /* Somnus */,
+				71E454F22CB5087100CD5B8C /* Simple Sleep Mode */,
 				71E454F12CB5087100CD5B8C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,7 +74,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				71E454F22CB5087100CD5B8C /* Somnus */,
+				71E454F22CB5087100CD5B8C /* Simple Sleep Mode */,
 			);
 			name = "Simple Sleep Mode";
 			packageProductDependencies = (
