@@ -13,9 +13,9 @@ struct SomnusApp: App {
     @StateObject private var viewModel = SomnusViewModel()
 
     var body: some Scene {
-//        WindowGroup {
-//            FirstView()
-//        }
+        WindowGroup {
+            SettingsView(viewModel: viewModel)
+        }
         MenuBarExtra {
             // Contenu du menu déroulant
             VStack {
