@@ -14,7 +14,7 @@ struct SomnusApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FirstView()
         }
         MenuBarExtra {
             // Contenu du menu déroulant
