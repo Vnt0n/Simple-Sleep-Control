@@ -54,6 +54,16 @@ struct SomnusApp: App {
                 Divider() // Séparation pour les options du menu
 
                 Button(action: {
+                    viewModel.showSettings()
+                }) {
+                    HStack {
+                        Text("Settings")
+                    }
+                }
+                
+                Divider() // Séparation pour les options du menu
+
+                Button(action: {
                     NSApp.terminate(nil) // Quitte l'application
                 }) {
                     HStack {
@@ -67,8 +77,7 @@ struct SomnusApp: App {
             Image(systemName: viewModel.menuIcon)
         }
         Settings {
-            Text("Settings")
-                .frame(minWidth: 800, minHeight: 500)
+            SettingsView(viewModel: viewModel) // Ajout de la vue Settings
         }
     }
 }
@@ -87,6 +96,29 @@ struct AboutMeView: View {
     }
 }
 
+// Vue pour les Settings
+struct SettingsView: View {
+    @ObservedObject var viewModel: SomnusViewModel
+    
+    var body: some View {
+        Form {
+            Section(header: Text("Sleep Settings")) {
+                Toggle("Prevent Display Sleep", isOn: $viewModel.isDisplaySleepDisabled)
+                    .onChange(of: viewModel.isDisplaySleepDisabled) {
+                        viewModel.toggleDisplaySleepMode()
+                    }
+                
+                Toggle("Prevent System Sleep", isOn: $viewModel.isSystemSleepDisabled)
+                    .onChange(of: viewModel.isSystemSleepDisabled) {
+                        viewModel.toggleSystemSleepMode()
+                    }
+            }
+        }
+        .frame(minWidth: 400, minHeight: 200)
+        .padding()
+    }
+}
+
 class SomnusViewModel: ObservableObject {
     // Propriétés pour la mise en veille de l'écran
     @Published var menuIcon: String = "bolt" // Icône dans la barre de menu
@@ -99,6 +131,7 @@ class SomnusViewModel: ObservableObject {
 
     // Fenêtre pour la vue AboutMe
     private var aboutWindow: NSWindow?
+    private var settingsWindow: NSWindow?
 
     // Fonction pour gérer la mise en veille de l'écran
     func toggleDisplaySleepMode() {
@@ -170,7 +203,7 @@ class SomnusViewModel: ObservableObject {
         }
     }
 
-    // Fonction pour afficher la vue AboutMe
+    // Fonction pour afficher la vue AboutSomnus
     func showAboutMe() {
         if aboutWindow == nil {
             let aboutView = NSHostingController(rootView: AboutMeView())
@@ -182,6 +215,21 @@ class SomnusViewModel: ObservableObject {
             aboutWindow?.title = "About Somnus"
         }
         aboutWindow?.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true) // Active l'application pour s'assurer que la fenêtre apparaît
+    }
+    
+    // Fonction pour afficher la vue Settings
+    func showSettings() {
+        if settingsWindow == nil {
+            let settingsView = NSHostingController(rootView: SettingsView(viewModel: self))
+            settingsWindow = NSWindow(
+                contentViewController: settingsView
+            )
+            settingsWindow?.setContentSize(NSSize(width: 400, height: 200))
+            settingsWindow?.styleMask = [.titled, .closable, .miniaturizable]
+            settingsWindow?.title = "Settings"
+        }
+        settingsWindow?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true) // Active l'application pour s'assurer que la fenêtre apparaît
     }
 }
