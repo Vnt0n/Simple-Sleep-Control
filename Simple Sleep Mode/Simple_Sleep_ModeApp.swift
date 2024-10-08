@@ -40,16 +40,8 @@ struct SimpleSleepModeApp: App {
                         Text("Prevent System Sleep")
                     }
                 }
-
+                
                 Divider()
-
-                Button(action: {
-                    viewModel.showAboutMe()
-                }) {
-                    HStack {
-                        Text("About Simple Sleep Mode")
-                    }
-                }
                 
                 Button(action: {
                     let launchAtLogin = !viewModel.isLoginItemEnabled
@@ -62,14 +54,14 @@ struct SimpleSleepModeApp: App {
                         Text("Open at login")
                     }
                 }
-
+                
                 Divider()
 
                 Button(action: {
-                    viewModel.showSettings()
+                    viewModel.showAboutMe()
                 }) {
                     HStack {
-                        Text("Settings")
+                        Text("About Simple Sleep Mode")
                     }
                 }
 
@@ -121,45 +113,6 @@ struct AboutMeView: View {
             Spacer()
         }
         .frame(minWidth: 400, minHeight: 200)
-    }
-}
-
-// Vue pour les Settings
-struct SettingsView: View {
-    @ObservedObject var viewModel: SimpleSleepModeViewModel
-    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-
-    var body: some View {
-        Form {
-            VStack {
-                
-                Spacer()
-
-                Text("Settings")
-                    .font(.system(size: 30))
-
-                Spacer()
-                
-                Button(action: {
-                    dismiss()
-                }) {
-                    Text("OK")
-                        .font(.title3)
-                        .bold()
-                        .padding()
-                        .frame(width: 70)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                Spacer()
-            }
-
-        }
-        .frame(minWidth: 400, minHeight: 200)
-        .padding()
     }
 }
 
@@ -275,21 +228,10 @@ class SimpleSleepModeViewModel: ObservableObject {
     func showAboutMe() {
         let aboutView = NSHostingController(rootView: AboutMeView())
         let aboutWindow = NSWindow(contentViewController: aboutView)
-        aboutWindow.setContentSize(NSSize(width: 300, height: 200))
+//        aboutWindow.setContentSize(NSSize(width: 400, height: 200))
         aboutWindow.styleMask = [.titled, .closable, .miniaturizable]
-        aboutWindow.title = "About Simple Sleep Mode"
+        aboutWindow.title = "ABOUT Simple Sleep Mode"
         aboutWindow.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-    }
-
-    // Afficher la fenêtre Settings
-    func showSettings() {
-        let settingsView = NSHostingController(rootView: SettingsView(viewModel: self))
-        let settingsWindow = NSWindow(contentViewController: settingsView)
-        settingsWindow.setContentSize(NSSize(width: 400, height: 200))
-        settingsWindow.styleMask = [.titled, .closable, .miniaturizable]
-        settingsWindow.title = "Settings"
-        settingsWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 }
