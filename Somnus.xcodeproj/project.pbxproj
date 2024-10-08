@@ -10,9 +10,22 @@
 		71E454F02CB5087100CD5B8C /* Somnus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Somnus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Somnus" folder in "Somnus" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 71E454EF2CB5087100CD5B8C /* Somnus */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		71E454F22CB5087100CD5B8C /* Somnus */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				71ABAD0B2CB55A9D00B4B945 /* Exceptions for "Somnus" folder in "Somnus" target */,
+			);
 			path = Somnus;
 			sourceTree = "<group>";
 		};
@@ -257,8 +270,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Somnus/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Somnus;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -286,8 +301,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Somnus/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Somnus;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
