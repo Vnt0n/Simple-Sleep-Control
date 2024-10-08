@@ -76,9 +76,9 @@ struct SomnusApp: App {
             // Label pour la barre de menu (icône dynamique)
             Image(systemName: viewModel.menuIcon)
         }
-        Settings {
-            SettingsView(viewModel: viewModel) // Ajout de la vue Settings
-        }
+//        Settings {
+//            SettingsView(viewModel: viewModel) // Ajout de la vue Settings
+//        }
     }
 }
 
