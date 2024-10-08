@@ -7,6 +7,7 @@
 
 import SwiftUI
 import IOKit.pwr_mgt
+import AppKit
 
 @main
 struct SomnusApp: App {
@@ -16,12 +17,9 @@ struct SomnusApp: App {
         WindowGroup {
             ContentView()
         }
-        Settings {
-            Text("Settings")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
         MenuBarExtra {
             // Contenu du menu déroulant
+            
             VStack {
                 Button(action: {
                     viewModel.toggleDisplaySleepMode() // Gérer la mise en veille de l'écran
@@ -48,11 +46,27 @@ struct SomnusApp: App {
                 }
 
                 Divider() // Séparation pour les options du menu
-
-                SettingsLink {
-                    Text("Open Settings") // Ouvre les réglages
+                
+                Button(action: {
+                    NSApp.terminate(nil) // Quitte l'application
+                }) {
+                    HStack {
+                        Text("Quit Somnus")
+                    }
                 }
+                
+                Divider() // Séparation pour les options du menu
+
+                Button(action: {
+                    print("Go to ContentView")
+                }) {
+                    HStack {
+                        Text("About me")
+                    }
+                }
+                
             }
+            
         } label: {
             // Label pour la barre de menu (icône dynamique)
             Image(systemName: viewModel.menuIcon)
@@ -62,7 +76,7 @@ struct SomnusApp: App {
 
 class SomnusViewModel: ObservableObject {
     // Propriétés pour la mise en veille de l'écran
-    @Published var menuIcon: String = "moon.circle.fill" // Icône dans la barre de menu
+    @Published var menuIcon: String = "bolt" // Icône dans la barre de menu
     private var sleepAssertionID: IOPMAssertionID = 0
     @Published var isDisplaySleepDisabled: Bool = false
 
@@ -76,8 +90,12 @@ class SomnusViewModel: ObservableObject {
             enableDisplaySleep()
         } else {
             disableDisplaySleep()
+            // Désactive la mise en veille du système si l'écran reste éveillé
+            if isSystemSleepDisabled {
+                enableSystemSleep()
+            }
         }
-        menuIcon = isDisplaySleepDisabled ? "moonrise.circle.fill" : "moon.circle.fill"
+        menuIcon = isDisplaySleepDisabled ? "bolt.fill" : "bolt"
     }
 
     private func disableDisplaySleep() {
@@ -87,6 +105,10 @@ class SomnusViewModel: ObservableObject {
                                                  &sleepAssertionID)
         if result == kIOReturnSuccess {
             isDisplaySleepDisabled = true
+            // Désactive la mise en veille du système si l'écran reste éveillé
+            if isSystemSleepDisabled {
+                enableSystemSleep()
+            }
         }
     }
 
@@ -103,7 +125,12 @@ class SomnusViewModel: ObservableObject {
             enableSystemSleep()
         } else {
             disableSystemSleep()
+            // Désactive la mise en veille de l'écran si le système reste éveillé
+            if isDisplaySleepDisabled {
+                enableDisplaySleep()
+            }
         }
+        menuIcon = isSystemSleepDisabled ? "bolt.fill" : "bolt"
     }
 
     private func disableSystemSleep() {
@@ -113,6 +140,10 @@ class SomnusViewModel: ObservableObject {
                                                  &systemSleepAssertionID)
         if result == kIOReturnSuccess {
             isSystemSleepDisabled = true
+            // Désactive la mise en veille de l'écran si le système reste éveillé
+            if isDisplaySleepDisabled {
+                enableDisplaySleep()
+            }
         }
     }
 
