@@ -1,10 +1,3 @@
-//
-//  SomnusApp.swift
-//  Somnus
-//
-//  Created by Antoine on 08/10/2024.
-//
-
 import SwiftUI
 import IOKit.pwr_mgt
 
@@ -19,31 +12,31 @@ struct SomnusApp: App {
         MenuBarExtra {
             VStack {
                 Button(action: {
-                    viewModel.isDisplaySleepDisabled.toggle() // Gérer la mise en veille de l'écran
+                    viewModel.toggleDisplaySleepMode()
                 }) {
                     HStack {
                         if viewModel.isDisplaySleepDisabled {
                             Image(systemName: "checkmark")
                         }
-                        Text("Prevent Display sleep")
+                        Text("Prevent Display Sleep")
                     }
                 }
 
                 Button(action: {
-                    viewModel.isSystemSleepDisabled.toggle() // Gérer la mise en veille du système
+                    viewModel.toggleSystemSleepMode()
                 }) {
                     HStack {
                         if viewModel.isSystemSleepDisabled {
                             Image(systemName: "checkmark")
                         }
-                        Text("Prevent System sleep")
+                        Text("Prevent System Sleep")
                     }
                 }
 
                 Divider()
 
                 Button(action: {
-                    viewModel.showAboutMe() // Ouvre la fenêtre AboutMe
+                    viewModel.showAboutMe()
                 }) {
                     HStack {
                         Text("About Somnus")
@@ -53,7 +46,7 @@ struct SomnusApp: App {
                 Divider()
 
                 Button(action: {
-                    viewModel.showSettings() // Ouvre la fenêtre Settings
+                    viewModel.showSettings()
                 }) {
                     HStack {
                         Text("Settings")
@@ -63,7 +56,7 @@ struct SomnusApp: App {
                 Divider()
 
                 Button(action: {
-                    NSApp.terminate(nil) // Quitte l'application
+                    NSApp.terminate(nil)
                 }) {
                     HStack {
                         Text("Quit Somnus")
@@ -71,7 +64,7 @@ struct SomnusApp: App {
                 }
             }
         } label: {
-            Image(systemName: viewModel.menuIcon) // Icône de la barre de menu
+            Image(systemName: viewModel.menuIcon)
         }
     }
 }
@@ -97,8 +90,19 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section(header: Text("Sleep Settings")) {
-                Toggle("Prevent Display Sleep", isOn: $viewModel.isDisplaySleepDisabled)
-                Toggle("Prevent System Sleep", isOn: $viewModel.isSystemSleepDisabled)
+                Toggle("Prevent Display Sleep", isOn: Binding(
+                    get: { viewModel.isDisplaySleepDisabled },
+                    set: { newValue in
+                        viewModel.toggleDisplaySleepMode()
+                    }
+                ))
+
+                Toggle("Prevent System Sleep", isOn: Binding(
+                    get: { viewModel.isSystemSleepDisabled },
+                    set: { newValue in
+                        viewModel.toggleSystemSleepMode()
+                    }
+                ))
             }
         }
         .frame(minWidth: 400, minHeight: 200)
@@ -106,40 +110,22 @@ struct SettingsView: View {
     }
 }
 
+// VueModel
 class SomnusViewModel: ObservableObject {
-    @Published var menuIcon: String = "bolt" // Icône dans la barre de menu
+    @Published var menuIcon: String = "bolt"
     private var sleepAssertionID: IOPMAssertionID = 0
     private var systemSleepAssertionID: IOPMAssertionID = 0
 
-    @Published var isDisplaySleepDisabled: Bool = false {
-        didSet {
-            if isDisplaySleepDisabled {
-                isSystemSleepDisabled = false // Désactiver l'autre option
-            }
-            toggleDisplaySleepMode()
-        }
-    }
+    @Published var isDisplaySleepDisabled: Bool = false
+    @Published var isSystemSleepDisabled: Bool = false
 
-    @Published var isSystemSleepDisabled: Bool = false {
-        didSet {
-            if isSystemSleepDisabled {
-                isDisplaySleepDisabled = false // Désactiver l'autre option
-            }
-            toggleSystemSleepMode()
-        }
-    }
-
-    // Mise à jour de l'icône de la barre de menu en fonction des états
-    private func updateMenuIcon() {
-        menuIcon = (isDisplaySleepDisabled || isSystemSleepDisabled) ? "bolt.fill" : "bolt"
-    }
-
-    // Gérer la mise en veille de l'écran
+    // Gérer la mise en veille de l'écran avec exclusion mutuelle
     func toggleDisplaySleepMode() {
         if isDisplaySleepDisabled {
-            disableDisplaySleep()
-        } else {
             enableDisplaySleep()
+        } else {
+            disableDisplaySleep()
+            isSystemSleepDisabled = false // Assurer l'exclusion mutuelle
         }
         updateMenuIcon()
     }
@@ -161,12 +147,13 @@ class SomnusViewModel: ObservableObject {
         }
     }
 
-    // Gérer la mise en veille du système
+    // Gérer la mise en veille du système avec exclusion mutuelle
     func toggleSystemSleepMode() {
         if isSystemSleepDisabled {
-            disableSystemSleep()
-        } else {
             enableSystemSleep()
+        } else {
+            disableSystemSleep()
+            isDisplaySleepDisabled = false // Assurer l'exclusion mutuelle
         }
         updateMenuIcon()
     }
@@ -188,7 +175,12 @@ class SomnusViewModel: ObservableObject {
         }
     }
 
-    // Affichage de la fenêtre "About"
+    // Mise à jour de l'icône de la barre de menu
+    private func updateMenuIcon() {
+        menuIcon = (isDisplaySleepDisabled || isSystemSleepDisabled) ? "bolt.fill" : "bolt"
+    }
+
+    // Afficher la fenêtre About
     func showAboutMe() {
         let aboutView = NSHostingController(rootView: AboutMeView())
         let aboutWindow = NSWindow(contentViewController: aboutView)
@@ -199,7 +191,7 @@ class SomnusViewModel: ObservableObject {
         NSApp.activate(ignoringOtherApps: true)
     }
 
-    // Affichage de la fenêtre "Settings"
+    // Afficher la fenêtre Settings
     func showSettings() {
         let settingsView = NSHostingController(rootView: SettingsView(viewModel: self))
         let settingsWindow = NSWindow(contentViewController: settingsView)
