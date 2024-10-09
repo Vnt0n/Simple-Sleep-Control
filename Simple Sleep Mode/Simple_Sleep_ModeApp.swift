@@ -118,7 +118,7 @@ struct AboutMeView: View {
 
 // VueModel
 class SimpleSleepModeViewModel: ObservableObject {
-    @Published var menuIcon: String = "bolt"
+    @Published var menuIcon: String = "zzz"
     private var sleepAssertionID: IOPMAssertionID = 0
     private var systemSleepAssertionID: IOPMAssertionID = 0
     @Published var isLoginItemEnabled: Bool = false
@@ -221,7 +221,13 @@ class SimpleSleepModeViewModel: ObservableObject {
 
     // Mise à jour de l'icône de la barre de menu
     private func updateMenuIcon() {
-        menuIcon = (isDisplaySleepDisabled || isSystemSleepDisabled) ? "bolt.fill" : "bolt"
+        if isSystemSleepDisabled {
+            menuIcon = "moon.zzz.fill"
+        } else if isDisplaySleepDisabled {
+            menuIcon = "moon.zzz"
+        } else {
+            menuIcon = "zzz"
+        }
     }
 
     // Afficher la fenêtre About
