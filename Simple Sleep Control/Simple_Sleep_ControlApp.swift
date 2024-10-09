@@ -14,9 +14,6 @@ struct SimpleSleepControlApp: App {
     @StateObject private var viewModel = SimpleSleepControlViewModel()
 
     var body: some Scene {
-        WindowGroup {
-            OpeningView()
-        }
         MenuBarExtra {
             VStack {
                 Button(action: {
@@ -40,9 +37,9 @@ struct SimpleSleepControlApp: App {
                         Text("Prevent System Sleep")
                     }
                 }
-                
+
                 Divider()
-                
+
                 Button(action: {
                     let launchAtLogin = !viewModel.isLoginItemEnabled
                     viewModel.setLoginItem(enabled: launchAtLogin)
@@ -54,7 +51,7 @@ struct SimpleSleepControlApp: App {
                         Text("Launch at login")
                     }
                 }
-                
+
                 Divider()
 
                 Button(action: {
@@ -74,9 +71,24 @@ struct SimpleSleepControlApp: App {
                         Text("Quit Simple Sleep Control")
                     }
                 }
+
+// //////////////////////////// Bouton pour réinitialiser UserDefaults ////////////////////////////////////////////////
+                Divider()
+                Button(action: {
+                    viewModel.resetOnboarding()
+                }) {
+                    Text("Reset Onboarding")
+                }
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
             }
         } label: {
             Image(systemName: viewModel.menuIcon)
+        }
+        .onChange(of: viewModel.showOpeningView) { oldValue, newValue in
+            if newValue {
+                viewModel.showOpeningWindow()
+            }
         }
     }
 }
@@ -84,19 +96,23 @@ struct SimpleSleepControlApp: App {
 // Vue d'ouverture
 struct OpeningView: View {
     @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
+    @State private var dontShowAgain = false
 
     var body: some View {
         VStack {
-            
             Spacer()
-            
+
             Text("Simple Sleep Control")
                 .font(.title)
                 .padding()
-            
+
             Spacer()
-            
+
+            Toggle("Don't show again", isOn: $dontShowAgain)
+                .padding()
+
             Button(action: {
+                UserDefaults.standard.set(dontShowAgain, forKey: "DontShowOpeningViewAgain")
                 dismiss()
             }) {
                 Text("OK")
@@ -109,7 +125,7 @@ struct OpeningView: View {
                     .cornerRadius(10)
             }
             .buttonStyle(PlainButtonStyle())
-            
+
             Spacer()
         }
         .frame(minWidth: 400, minHeight: 200)
@@ -160,9 +176,17 @@ class SimpleSleepControlViewModel: ObservableObject {
 
     @Published var isDisplaySleepDisabled: Bool = false
     @Published var isSystemSleepDisabled: Bool = false
-    
+    @Published var showOpeningView: Bool = !UserDefaults.standard.bool(forKey: "DontShowOpeningViewAgain")
+
     init() {
         isLoginItemEnabled = SMAppService.mainApp.status == .enabled
+        
+        // Vérifier si l'OpeningView doit être affichée
+        DispatchQueue.main.async {
+            if self.showOpeningView {
+                self.showOpeningWindow()
+            }
+        }
     }
 
     func setLoginItem(enabled: Bool) {
@@ -176,6 +200,17 @@ class SimpleSleepControlViewModel: ObservableObject {
         } catch {
             print("Failed to toggle login item: \(error)")
         }
+    }
+
+    // Afficher la fenêtre d'ouverture
+    func showOpeningWindow() {
+        let openingView = NSHostingController(rootView: OpeningView())
+        let openingWindow = NSWindow(contentViewController: openingView)
+        openingWindow.styleMask = [.titled, .closable]
+        openingWindow.title = "Welcome to Simple Sleep Control"
+        openingWindow.setContentSize(NSSize(width: 400, height: 200))
+        openingWindow.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     // Gérer la mise en veille de l'écran avec exclusion mutuelle
@@ -285,4 +320,11 @@ class SimpleSleepControlViewModel: ObservableObject {
         aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
+    
+// //////////////////////////// Fonction pour réinitialiser UserDefaults ////////////////////////////////////////////////
+    func resetOnboarding() {
+        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
+        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
+    }
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
