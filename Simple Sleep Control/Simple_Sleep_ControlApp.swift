@@ -94,78 +94,78 @@ struct SimpleSleepControlApp: App {
 }
 
 // Vue d'ouverture
-struct OpeningView: View {
-    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-    @State private var dontShowAgain = false
-
-    var body: some View {
-        VStack {
-            Spacer()
-
-            Text("Simple Sleep Control")
-                .font(.title)
-                .padding()
-
-            Spacer()
-
-            Toggle("Don't show again", isOn: $dontShowAgain)
-                .padding()
-
-            Button(action: {
-                UserDefaults.standard.set(dontShowAgain, forKey: "DontShowOpeningViewAgain")
-                dismiss()
-            }) {
-                Text("OK")
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                    .frame(width: 70)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .buttonStyle(PlainButtonStyle())
-
-            Spacer()
-        }
-        .frame(minWidth: 400, minHeight: 200)
-    }
-}
+//struct OpeningView: View {
+//    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
+//    @State private var dontShowAgain = false
+//
+//    var body: some View {
+//        VStack {
+//            Spacer()
+//
+//            Text("Simple Sleep Control")
+//                .font(.title)
+//                .padding()
+//
+//            Spacer()
+//
+//            Toggle("Don't show again", isOn: $dontShowAgain)
+//                .padding()
+//
+//            Button(action: {
+//                UserDefaults.standard.set(dontShowAgain, forKey: "DontShowOpeningViewAgain")
+//                dismiss()
+//            }) {
+//                Text("OK")
+//                    .font(.title3)
+//                    .bold()
+//                    .padding()
+//                    .frame(width: 70)
+//                    .background(Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+//            }
+//            .buttonStyle(PlainButtonStyle())
+//
+//            Spacer()
+//        }
+//        .frame(minWidth: 400, minHeight: 200)
+//    }
+//}
 
 // Vue pour l'onglet "About me"
-struct AboutMeView: View {
-    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-
-    var body: some View {
-        VStack {
-            
-            Spacer()
-            
-            Text("About me")
-                .font(.title)
-                .padding()
-            
-            Spacer()
-            
-            Button(action: {
-                dismiss()
-            }) {
-                Text("OK")
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                    .frame(width: 70)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .buttonStyle(PlainButtonStyle())
-            
-            Spacer()
-        }
-        .frame(minWidth: 400, minHeight: 200)
-    }
-}
+//struct AboutMeView: View {
+//    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
+//
+//    var body: some View {
+//        VStack {
+//            
+//            Spacer()
+//            
+//            Text("About me")
+//                .font(.title)
+//                .padding()
+//            
+//            Spacer()
+//            
+//            Button(action: {
+//                dismiss()
+//            }) {
+//                Text("OK")
+//                    .font(.title3)
+//                    .bold()
+//                    .padding()
+//                    .frame(width: 70)
+//                    .background(Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+//            }
+//            .buttonStyle(PlainButtonStyle())
+//            
+//            Spacer()
+//        }
+//        .frame(minWidth: 400, minHeight: 200)
+//    }
+//}
 
 // VueModel
 class SimpleSleepControlViewModel: ObservableObject {
