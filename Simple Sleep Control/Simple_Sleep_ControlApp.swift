@@ -1,8 +1,8 @@
 //
-//  Simple_Sleep_ModeApp.swift
-//  Simple Sleep Mode
+//  Simple_Sleep_ControlApp.swift
+//  Simple Sleep Control
 //
-//  Created by Antoine on 08/10/2024.
+//  Created by Antoine on 09/10/2024.
 //
 
 import SwiftUI
@@ -10,8 +10,8 @@ import IOKit.pwr_mgt
 import ServiceManagement
 
 @main
-struct SimpleSleepModeApp: App {
-    @StateObject private var viewModel = SimpleSleepModeViewModel()
+struct SimpleSleepControlApp: App {
+    @StateObject private var viewModel = SimpleSleepControlViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -51,7 +51,7 @@ struct SimpleSleepModeApp: App {
                         if viewModel.isLoginItemEnabled {
                             Image(systemName: "checkmark")
                         }
-                        Text("Open at login")
+                        Text("Launch at login")
                     }
                 }
                 
@@ -61,7 +61,7 @@ struct SimpleSleepModeApp: App {
                     viewModel.showAboutMe()
                 }) {
                     HStack {
-                        Text("About Simple Sleep Mode")
+                        Text("About Simple Sleep Control")
                     }
                 }
 
@@ -71,7 +71,7 @@ struct SimpleSleepModeApp: App {
                     NSApp.terminate(nil)
                 }) {
                     HStack {
-                        Text("Quit Simple Sleep Mode")
+                        Text("Quit Simple Sleep Control")
                     }
                 }
             }
@@ -90,7 +90,7 @@ struct AboutMeView: View {
             
             Spacer()
             
-            Text("Simple Sleep Mode")
+            Text("Simple Sleep Control")
                 .font(.title)
                 .padding()
             
@@ -117,7 +117,7 @@ struct AboutMeView: View {
 }
 
 // VueModel
-class SimpleSleepModeViewModel: ObservableObject {
+class SimpleSleepControlViewModel: ObservableObject {
     @Published var menuIcon: String = "zzz"
     private var sleepAssertionID: IOPMAssertionID = 0
     private var systemSleepAssertionID: IOPMAssertionID = 0
@@ -236,7 +236,7 @@ class SimpleSleepModeViewModel: ObservableObject {
         let aboutWindow = NSWindow(contentViewController: aboutView)
 //        aboutWindow.setContentSize(NSSize(width: 400, height: 200))
         aboutWindow.styleMask = [.titled, .closable, .miniaturizable]
-        aboutWindow.title = "ABOUT Simple Sleep Mode"
+        aboutWindow.title = "ABOUT Simple Sleep Control"
         aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
