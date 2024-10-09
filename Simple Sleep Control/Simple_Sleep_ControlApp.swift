@@ -149,7 +149,12 @@ class SimpleSleepControlViewModel: ObservableObject {
             enableDisplaySleep()
         } else {
             disableDisplaySleep()
-            isSystemSleepDisabled = false // Assurer l'exclusion mutuelle
+
+            if isSystemSleepDisabled {
+                // Libérer l'assertion de mise en veille du système si elle est encore active
+                enableSystemSleep()
+            }
+            isSystemSleepDisabled = false // Assurer l'exclusion mutuelle et synchroniser l'état
         }
         updateMenuIcon()
     }
@@ -197,7 +202,12 @@ class SimpleSleepControlViewModel: ObservableObject {
             enableSystemSleep()
         } else {
             disableSystemSleep()
-            isDisplaySleepDisabled = false // Assurer l'exclusion mutuelle
+
+            if isDisplaySleepDisabled {
+                // Libérer l'assertion de mise en veille de l'écran si elle est encore active
+                enableDisplaySleep()
+            }
+            isDisplaySleepDisabled = false // Assurer l'exclusion mutuelle et synchroniser l'état
         }
         updateMenuIcon()
     }
