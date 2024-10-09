@@ -58,10 +58,18 @@ struct SimpleSleepControlApp: App {
                     viewModel.showAboutMe()
                 }) {
                     HStack {
-                        Text("About Simple Sleep Control")
+                        Text("About me")
                     }
                 }
 
+                Button(action: {
+                    viewModel.showAboutSimpleSleepControl()
+                }) {
+                    HStack {
+                        Text("About Simple Sleep control")
+                    }
+                }
+                
                 Divider()
 
                 Button(action: {
@@ -92,80 +100,6 @@ struct SimpleSleepControlApp: App {
         }
     }
 }
-
-// Vue d'ouverture
-//struct OpeningView: View {
-//    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-//    @State private var dontShowAgain = false
-//
-//    var body: some View {
-//        VStack {
-//            Spacer()
-//
-//            Text("Simple Sleep Control")
-//                .font(.title)
-//                .padding()
-//
-//            Spacer()
-//
-//            Toggle("Don't show again", isOn: $dontShowAgain)
-//                .padding()
-//
-//            Button(action: {
-//                UserDefaults.standard.set(dontShowAgain, forKey: "DontShowOpeningViewAgain")
-//                dismiss()
-//            }) {
-//                Text("OK")
-//                    .font(.title3)
-//                    .bold()
-//                    .padding()
-//                    .frame(width: 70)
-//                    .background(Color.blue)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//
-//            Spacer()
-//        }
-//        .frame(minWidth: 400, minHeight: 200)
-//    }
-//}
-
-// Vue pour l'onglet "About me"
-//struct AboutMeView: View {
-//    @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-//
-//    var body: some View {
-//        VStack {
-//            
-//            Spacer()
-//            
-//            Text("About me")
-//                .font(.title)
-//                .padding()
-//            
-//            Spacer()
-//            
-//            Button(action: {
-//                dismiss()
-//            }) {
-//                Text("OK")
-//                    .font(.title3)
-//                    .bold()
-//                    .padding()
-//                    .frame(width: 70)
-//                    .background(Color.blue)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//            
-//            Spacer()
-//        }
-//        .frame(minWidth: 400, minHeight: 200)
-//    }
-//}
 
 // VueModel
 class SimpleSleepControlViewModel: ObservableObject {
@@ -208,7 +142,6 @@ class SimpleSleepControlViewModel: ObservableObject {
         let openingWindow = NSWindow(contentViewController: openingView)
         openingWindow.styleMask = [.titled, .closable]
         openingWindow.title = "Welcome to Simple Sleep Control"
-        openingWindow.setContentSize(NSSize(width: 400, height: 200))
         openingWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
@@ -314,9 +247,18 @@ class SimpleSleepControlViewModel: ObservableObject {
     func showAboutMe() {
         let aboutView = NSHostingController(rootView: AboutMeView())
         let aboutWindow = NSWindow(contentViewController: aboutView)
-//        aboutWindow.setContentSize(NSSize(width: 400, height: 200))
-        aboutWindow.styleMask = [.titled, .closable, .miniaturizable]
-        aboutWindow.title = "ABOUT Simple Sleep Control"
+        aboutWindow.styleMask = [.titled, .closable]
+        aboutWindow.title = "Simple Sleep Control"
+        aboutWindow.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    // Afficher la fenêtre About
+    func showAboutSimpleSleepControl() {
+        let aboutAppView = NSHostingController(rootView: AboutSimpleSleepControlView())
+        let aboutWindow = NSWindow(contentViewController: aboutAppView)
+        aboutWindow.styleMask = [.titled, .closable]
+        aboutWindow.title = "Simple Sleep Control"
         aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }

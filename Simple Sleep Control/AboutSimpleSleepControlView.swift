@@ -1,5 +1,5 @@
 //
-//  OpeningView.swift
+//  AboutSimpleSleepControlView.swift
 //  Simple Sleep Control
 //
 //  Created by Antoine on 09/10/2024.
@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct OpeningView: View {
+struct AboutSimpleSleepControlView: View {
     @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-    @State private var dontShowAgain = false
 
     var body: some View {
         VStack {
@@ -39,11 +38,7 @@ struct OpeningView: View {
             
             Spacer()
             
-            Toggle("Don't show again ", isOn: $dontShowAgain)
-                .padding()
-
             Button(action: {
-                UserDefaults.standard.set(dontShowAgain, forKey: "DontShowOpeningViewAgain")
                 dismiss()
             }) {
             Text("OK")
@@ -64,5 +59,5 @@ struct OpeningView: View {
 }
 
 #Preview {
-    OpeningView()
+    AboutSimpleSleepControlView()
 }
