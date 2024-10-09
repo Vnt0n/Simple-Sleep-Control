@@ -27,7 +27,7 @@ struct AboutMeView: View {
             Spacer()
 
             Button(action: {
-                if let url = URL(string: "https://www.paypal.com/donate?token=ymZeUeC1URwMLXr1xGEsHgjIk-Ty9z6quyvJQwITPJXZnz7lYKa2-2eL_iuRIEUfx77SlGiFNTi5pi5E") {
+                if let url = URL(string: "https://vnton.xyz/donate") {
                     NSWorkspace.shared.open(url)
                 }
             }) {
