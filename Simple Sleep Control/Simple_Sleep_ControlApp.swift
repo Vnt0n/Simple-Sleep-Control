@@ -81,12 +81,12 @@ struct SimpleSleepControlApp: App {
                 }
 
 // //////////////////////////// Bouton pour réinitialiser UserDefaults ////////////////////////////////////////////////
-                Divider()
-                Button(action: {
-                    viewModel.resetOnboarding()
-                }) {
-                    Text("Reset Onboarding")
-                }
+//                Divider()
+//                Button(action: {
+//                    viewModel.resetOnboarding()
+//                }) {
+//                    Text("Reset Onboarding")
+//                }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
             }
@@ -264,9 +264,9 @@ class SimpleSleepControlViewModel: ObservableObject {
     }
     
 // //////////////////////////// Fonction pour réinitialiser UserDefaults ////////////////////////////////////////////////
-    func resetOnboarding() {
-        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
-        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
-    }
+//    func resetOnboarding() {
+//        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
+//        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
+//    }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

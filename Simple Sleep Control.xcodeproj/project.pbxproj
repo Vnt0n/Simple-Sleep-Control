@@ -252,7 +252,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Simple Sleep Control/Simple_Sleep_Control.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Simple Sleep Control/Preview Content\"";
 				DEVELOPMENT_TEAM = FHUR5528AA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -283,7 +283,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Simple Sleep Control/Simple_Sleep_Control.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Simple Sleep Control/Preview Content\"";
 				DEVELOPMENT_TEAM = FHUR5528AA;
 				ENABLE_HARDENED_RUNTIME = YES;

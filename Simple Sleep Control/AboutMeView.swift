@@ -21,12 +21,27 @@ struct AboutMeView: View {
             
             Spacer()
             
-            Text("The best way to share your ❤️ ")
+            Text("I'm an independent French developer.")
                 .font(.system(size: 15))
-
+            
             Spacer()
 
-            Button(action: {
+            Text("I like to make free apps, with no ads, lightweight,")
+                .font(.system(size: 15))
+            Text("and really simple to use, straight to the point.")
+                .font(.system(size: 15))
+            
+            Spacer()
+
+            Text("If you value my work, please consider ")
+                .font(.system(size: 15))
+            Text("to donate a small amount for my job. ❤️")
+                .font(.system(size: 15))
+            
+            Spacer()
+            Spacer()
+
+                        Button(action: {
                 if let url = URL(string: "https://vnton.xyz/donate") {
                     NSWorkspace.shared.open(url)
                 }
@@ -44,10 +59,6 @@ struct AboutMeView: View {
             .buttonStyle(PlainButtonStyle())
             
             Spacer()
-
-            Text("Even a small amount is a big thing for me")
-                .font(.system(size: 15))
-
             Spacer()
             Spacer()
 
@@ -64,7 +75,7 @@ struct AboutMeView: View {
 
             Spacer()
             
-            Link("vnton.xyz", destination: URL(string: "https://vnton.xyz")!)
+            Link("vnton.xyz", destination: URL(string: "https://vnton.xyz/apps")!)
                 .font(.system(size: 15))
                 .bold()
                 .foregroundColor(.blue)
@@ -90,7 +101,7 @@ struct AboutMeView: View {
             
 //            Spacer()
         }
-        .frame(minWidth: 600, minHeight: 300)
+        .frame(minWidth: 600, minHeight: 500)
     }
 }
 
