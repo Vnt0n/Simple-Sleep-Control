@@ -1,0 +1,198 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "About me" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos de moi"
+          }
+        }
+      }
+    },
+    "About Simple Sleep control" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos de Simple Sleep Control"
+          }
+        }
+      }
+    },
+    "An app by" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une app créée par"
+          }
+        }
+      }
+    },
+    "and really simple to use, straight to the point." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "et vraiment simple à utiliser, qui vont droit au but."
+          }
+        }
+      }
+    },
+    "and see my other apps here:" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "et voir mes autres apps :"
+          }
+        }
+      }
+    },
+    "Don't show again " : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne plus afficher"
+          }
+        }
+      }
+    },
+    "Donate with PayPal" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donner avec PayPal"
+          }
+        }
+      }
+    },
+    "Free, lightweight, straight to the point." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratuit, léger, sans chichi."
+          }
+        }
+      }
+    },
+    "I like to make free apps, with no ads, lightweight," : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "J’aime créer des apps gratuites, sans publicité, légères,"
+          }
+        }
+      }
+    },
+    "I'm an independent French developer." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je suis un développeur indépendant."
+          }
+        }
+      }
+    },
+    "If you value my work, please consider " : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous aimez mon travail, pensez à"
+          }
+        }
+      }
+    },
+    "Launch at login" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancer au démarrage"
+          }
+        }
+      }
+    },
+    "OK" : {
+
+    },
+    "Prevent Display Sleep" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher l’écran de s’éteindre"
+          }
+        }
+      }
+    },
+    "Prevent System Sleep" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher l’ordinateur de s’éteindre"
+          }
+        }
+      }
+    },
+    "Quit Simple Sleep Control" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter"
+          }
+        }
+      }
+    },
+    "Simple Sleep Control" : {
+
+    },
+    "to donate a small amount for my job. ❤️" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "me donner un petit quelque chose pour ma peine. ❤️"
+          }
+        }
+      }
+    },
+    "Version 1.0.0" : {
+
+    },
+    "vnton.xyz" : {
+
+    },
+    "You can also share your love by writing me an email" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez aussi m’envoyer un email"
+          }
+        }
+      }
+    },
+    "You like my work?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous aimez Simple Sleep Control ?"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

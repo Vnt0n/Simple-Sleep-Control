@@ -70,7 +70,7 @@ struct AboutMeView: View {
             Text("You can also share your love by writing me an email")
                 .font(.system(size: 14))
 
-            Text("and see my other apps here :")
+            Text("and see my other apps here:")
                 .font(.system(size: 14))
 
             Spacer()
