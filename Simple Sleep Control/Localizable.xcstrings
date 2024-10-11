@@ -206,7 +206,38 @@
       }
     },
     "Deactivate all if 10% battery charge" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deaktiviere alles bei 10% Akkuladung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivar todo si la batería está al 10%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver si la batterie arrive à 10%"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー残量が10%になったらすべてを無効にする"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当电池电量为10%时停用所有功能"
+          }
+        }
+      }
     },
     "Donate with PayPal" : {
       "localizations" : {
