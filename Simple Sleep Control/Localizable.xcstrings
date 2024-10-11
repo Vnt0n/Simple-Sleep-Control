@@ -273,6 +273,9 @@
         }
       }
     },
+    "Here are the latest updates and features..." : {
+
+    },
     "I like to make free apps, with no ads, lightweight," : {
       "localizations" : {
         "de" : {
@@ -411,6 +414,30 @@
     },
     "OK" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -562,6 +589,9 @@
 
     },
     "vnton.xyz" : {
+
+    },
+    "What's New in Simple Sleep Control" : {
 
     },
     "You can also share your love by writing me an email" : {

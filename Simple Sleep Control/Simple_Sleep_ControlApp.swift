@@ -62,14 +62,6 @@ struct SimpleSleepControlApp: App {
                     }
                 }
 
-                Button(action: {
-                    viewModel.showAboutSimpleSleepControl()
-                }) {
-                    HStack {
-                        Text("About Simple Sleep control")
-                    }
-                }
-                
                 Divider()
 
                 Button(action: {
@@ -79,13 +71,30 @@ struct SimpleSleepControlApp: App {
                         Text("Quit Simple Sleep Control")
                     }
                 }
+                
+                Button(action: {
+                    viewModel.showWhatsNewWindow()
+                }) {
+                    HStack {
+                        Text("About Simple Sleep control")
+                    }
+                }
 
-// //////////////////////////// Bouton pour réinitialiser UserDefaults ////////////////////////////////////////////////
+// //////////////////////////// Bouton pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
 //                Divider()
 //                Button(action: {
 //                    viewModel.resetOnboarding()
 //                }) {
 //                    Text("Reset Onboarding")
+//                }
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
+// //////////////////////////// Bouton pour réinitialiser WhatsNewView UserDefaults ////////////////////////////////////////////////
+//                Divider()
+//                Button(action: {
+//                    viewModel.resetWhatsNew()
+//                }) {
+//                    Text("Reset WhatsNew")
 //                }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
@@ -111,6 +120,7 @@ class SimpleSleepControlViewModel: ObservableObject {
     @Published var isDisplaySleepDisabled: Bool = false
     @Published var isSystemSleepDisabled: Bool = false
     @Published var showOpeningView: Bool = !UserDefaults.standard.bool(forKey: "DontShowOpeningViewAgain")
+    @Published var showWhatsNewView: Bool = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain")
 
     init() {
         isLoginItemEnabled = SMAppService.mainApp.status == .enabled
@@ -263,10 +273,29 @@ class SimpleSleepControlViewModel: ObservableObject {
         NSApp.activate(ignoringOtherApps: true)
     }
     
-// //////////////////////////// Fonction pour réinitialiser UserDefaults ////////////////////////////////////////////////
+    // Afficher la fenêtre "What's New"
+    func showWhatsNewWindow() {
+        let whatsNewView = NSHostingController(rootView: WhatsNewView())
+        let whatsNewWindow = NSWindow(contentViewController: whatsNewView)
+        whatsNewWindow.styleMask = [.titled, .closable]
+        whatsNewWindow.title = "What's New"
+        whatsNewWindow.setContentSize(NSSize(width: 400, height: 200))
+        whatsNewWindow.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
+// //////////////////////////// Fonction pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
 //    func resetOnboarding() {
 //        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
 //        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
 //    }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+// //////////////////////////// Fonction pour réinitialiser WhatsNewView UserDefaults ////////////////////////////////////////////////
+//    func resetWhatsNew() {
+//        UserDefaults.standard.set(false, forKey: "DontShowWhatsNewViewAgain")
+//        showWhatsNewWindow = true // Réinitialiser l'état pour afficher WhatsNewView
+//    }
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
 }
