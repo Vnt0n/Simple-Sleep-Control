@@ -61,6 +61,15 @@ struct SimpleSleepControlApp: App {
                         Text("About me")
                     }
                 }
+                
+                
+                Button(action: {
+                    viewModel.showAboutSimpleSleepControl()
+                }) {
+                    HStack {
+                        Text("About Simple Sleep control")
+                    }
+                }
 
                 Divider()
 
@@ -76,7 +85,7 @@ struct SimpleSleepControlApp: App {
                     viewModel.showWhatsNewWindow()
                 }) {
                     HStack {
-                        Text("About Simple Sleep control")
+                        Text("WhatsNew")
                     }
                 }
 
@@ -253,7 +262,7 @@ class SimpleSleepControlViewModel: ObservableObject {
         }
     }
 
-    // Afficher la fenêtre About
+    // Afficher la fenêtre About Me
     func showAboutMe() {
         let aboutView = NSHostingController(rootView: AboutMeView())
         let aboutWindow = NSWindow(contentViewController: aboutView)
@@ -263,7 +272,7 @@ class SimpleSleepControlViewModel: ObservableObject {
         NSApp.activate(ignoringOtherApps: true)
     }
     
-    // Afficher la fenêtre About
+    // Afficher la fenêtre About Simple Sleep control
     func showAboutSimpleSleepControl() {
         let aboutAppView = NSHostingController(rootView: AboutSimpleSleepControlView())
         let aboutWindow = NSWindow(contentViewController: aboutAppView)
