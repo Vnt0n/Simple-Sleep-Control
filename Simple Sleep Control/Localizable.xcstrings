@@ -205,6 +205,9 @@
         }
       }
     },
+    "Deactivate all if 10% battery charge" : {
+
+    },
     "Donate with PayPal" : {
       "localizations" : {
         "de" : {
@@ -531,7 +534,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verrouiller l’écran et empêcher le système de s’éteindre"
+            "value" : "Verrouiller l’écran et empêcher l’ordinateur de s’éteindre"
           }
         },
         "ja" : {

@@ -9,6 +9,7 @@ import SwiftUI
 import IOKit.pwr_mgt
 import ServiceManagement
 import Foundation
+import IOKit.ps
 
 @main
 struct SimpleSleepControlApp: App {
@@ -67,12 +68,24 @@ struct SimpleSleepControlApp: App {
                     }
                 }
                 
-                
                 Button(action: {
                     viewModel.launchScreensaverAndPreventSystemSleep()
                 }) {
                     HStack {
                         Text("Launch Screensaver and Prevent System Sleep")
+                    }
+                }
+                
+                Divider()
+                
+                Button(action: {
+                    viewModel.toggleDeactivateIfLowBattery()
+                }) {
+                    HStack {
+                        if viewModel.isCriticalbatteryCharge {
+                            Image(systemName: "checkmark")
+                        }
+                        Text("Deactivate all if 10% battery charge")
                     }
                 }
                 
@@ -85,7 +98,7 @@ struct SimpleSleepControlApp: App {
                         Text("About me")
                     }
                 }
-                
+                 
                 Button(action: {
                     viewModel.showAboutSimpleSleepControl()
                 }) {
@@ -158,6 +171,8 @@ class SimpleSleepControlViewModel: ObservableObject {
     @Published var isSystemSleepDisabled: Bool = false
     @Published var showOpeningView: Bool = false
     @Published var showWhatsNewView: Bool = false
+    @Published var isCriticalbatteryCharge: Bool = false
+
 
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
 
@@ -367,7 +382,67 @@ class SimpleSleepControlViewModel: ObservableObject {
         
         disableSystemSleep()
     }
+    
+    func deactivateIfLowBattery() {
+        if let batteryInfo = getBatteryInfo(), let currentCapacity = batteryInfo["CurrentCapacity"] as? Int, let maxCapacity = batteryInfo["MaxCapacity"] as? Int {
+            let batteryPercentage = (Double(currentCapacity) / Double(maxCapacity)) * 100
+            print("Battery level: \(batteryPercentage)%")
+            
+            if batteryPercentage <= 10 {
+                print("Battery level is \(batteryPercentage)%, deactivating all features")
+                deactivateAllFeatures()
+            } else {
+                print("Battery level is sufficient: \(batteryPercentage)%")
+            }
+        } else {
+            print("Unable to retrieve battery information")
+        }
+    }
+    
+    private func deactivateAllFeatures() {
+        enableDisplaySleep()  // Remettre la mise en veille de l'écran
+        enableSystemSleep()   // Remettre la mise en veille du système
+    }
+    
+    private func getBatteryInfo() -> [String: AnyObject]? {
+        let blob = IOPSCopyPowerSourcesInfo().takeRetainedValue()
+        let sources = IOPSCopyPowerSourcesList(blob).takeRetainedValue() as NSArray
+        
+        if sources.count == 0 {
+            print("No power sources found.")
+            return nil
+        }
+        
+        if let powerSource = sources.firstObject as? CFTypeRef {
+            if let description = IOPSGetPowerSourceDescription(blob, powerSource).takeUnretainedValue() as? [String: AnyObject] {
+                print("Battery info: \(description)")
+                return description
+            } else {
+                print("Unable to retrieve power source description.")
+                return nil
+            }
+        } else {
+            print("No valid power source found.")
+            return nil
+        }
+    }
+    
+    func toggleDeactivateIfLowBattery() {
+        // Inverser l'état de la variable
+        isCriticalbatteryCharge.toggle()
 
+        if isCriticalbatteryCharge {
+            // Si activé, vérifier immédiatement la batterie et désactiver si nécessaire
+            deactivateIfLowBattery()
+            print("Battery level monitoring activated")
+        } else {
+            // Si désactivé, réactiver toutes les fonctionnalités
+            enableDisplaySleep()
+            enableSystemSleep()
+            print("Battery level monitoring deactivated")
+        }
+    }
+    
     // Mise à jour de l'icône de la barre de menu
     private func updateMenuIcon() {
         if isSystemSleepDisabled {
