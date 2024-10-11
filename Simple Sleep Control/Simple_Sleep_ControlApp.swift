@@ -81,30 +81,21 @@ struct SimpleSleepControlApp: App {
                     }
                 }
                 
+// //////////////////////////// Bouton pour afficher WhatsNewView ////////////////////////////////////////////////
+                Divider()
                 Button(action: {
                     viewModel.showWhatsNewWindow()
                 }) {
                     HStack {
-                        Text("WhatsNew")
+                        Text("Afficher WhatsNew")
                     }
                 }
-
 // //////////////////////////// Bouton pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
-//                Divider()
-//                Button(action: {
-//                    viewModel.resetOnboarding()
-//                }) {
-//                    Text("Reset Onboarding")
-//                }
-// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                
-// //////////////////////////// Bouton pour réinitialiser WhatsNewView UserDefaults ////////////////////////////////////////////////
-//                Divider()
-//                Button(action: {
-//                    viewModel.resetWhatsNew()
-//                }) {
-//                    Text("Reset WhatsNew")
-//                }
+                Button(action: {
+                    viewModel.resetOnboarding()
+                }) {
+                    Text("Reset Onboarding")
+                }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
             }
@@ -294,17 +285,10 @@ class SimpleSleepControlViewModel: ObservableObject {
     }
     
 // //////////////////////////// Fonction pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
-//    func resetOnboarding() {
-//        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
-//        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
-//    }
+    func resetOnboarding() {
+        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
+        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
+    }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-// //////////////////////////// Fonction pour réinitialiser WhatsNewView UserDefaults ////////////////////////////////////////////////
-//    func resetWhatsNew() {
-//        UserDefaults.standard.set(false, forKey: "DontShowWhatsNewViewAgain")
-//        showWhatsNewWindow = true // Réinitialiser l'état pour afficher WhatsNewView
-//    }
-// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
 }

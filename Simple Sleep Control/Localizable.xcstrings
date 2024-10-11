@@ -69,6 +69,9 @@
         }
       }
     },
+    "Afficher WhatsNew" : {
+
+    },
     "An app by" : {
       "localizations" : {
         "de" : {
@@ -548,6 +551,9 @@
         }
       }
     },
+    "Reset Onboarding" : {
+
+    },
     "Simple Sleep Control" : {
 
     },
@@ -592,9 +598,6 @@
 
     },
     "What's New in Simple Sleep Control" : {
-
-    },
-    "WhatsNew" : {
 
     },
     "You can also share your love by writing me an email" : {
