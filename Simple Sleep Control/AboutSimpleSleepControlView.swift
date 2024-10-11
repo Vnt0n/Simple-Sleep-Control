@@ -35,7 +35,7 @@ struct AboutSimpleSleepControlView: View {
             Text("An app by")
                 .font(.system(size: 14))
 
-            Link("vnton.xyz", destination: URL(string: "https://vnton.xyz")!)
+            Link("vnton.xyz", destination: URL(string: "https://vnton.xyz/apps")!)
                 .font(.system(size: 15))
                 .bold()
                 .foregroundColor(.blue)
