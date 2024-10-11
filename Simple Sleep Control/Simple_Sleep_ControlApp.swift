@@ -38,20 +38,6 @@ struct SimpleSleepControlApp: App {
                         Text("Prevent System Sleep")
                     }
                 }
-
-                Divider()
-
-                Button(action: {
-                    let launchAtLogin = !viewModel.isLoginItemEnabled
-                    viewModel.setLoginItem(enabled: launchAtLogin)
-                }) {
-                    HStack {
-                        if viewModel.isLoginItemEnabled {
-                            Image(systemName: "checkmark")
-                        }
-                        Text("Launch at login")
-                    }
-                }
                 
                 Divider()
 
@@ -72,6 +58,25 @@ struct SimpleSleepControlApp: App {
                 }
 
                 Divider()
+                
+                Button(action: {
+                    viewModel.launchScreensaverAndPreventDisplaySleep()
+                }) {
+                    HStack {
+                        Text("Launch Screensaver and Prevent Display Sleep")
+                    }
+                }
+                
+                
+                Button(action: {
+                    viewModel.launchScreensaverAndPreventSystemSleep()
+                }) {
+                    HStack {
+                        Text("Launch Screensaver and Prevent System Sleep")
+                    }
+                }
+                
+                Divider()
 
                 Button(action: {
                     viewModel.showAboutMe()
@@ -86,6 +91,20 @@ struct SimpleSleepControlApp: App {
                 }) {
                     HStack {
                         Text("About Simple Sleep control")
+                    }
+                }
+                                
+                Divider()
+
+                Button(action: {
+                    let launchAtLogin = !viewModel.isLoginItemEnabled
+                    viewModel.setLoginItem(enabled: launchAtLogin)
+                }) {
+                    HStack {
+                        if viewModel.isLoginItemEnabled {
+                            Image(systemName: "checkmark")
+                        }
+                        Text("Launch at login")
                     }
                 }
 
@@ -325,7 +344,27 @@ class SimpleSleepControlViewModel: ObservableObject {
         let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
         SACLockScreenImmediate()
 
-        // Désactiver la mise en veille de l'écran
+        disableSystemSleep()
+    }
+    
+    func launchScreensaverAndPreventDisplaySleep() {
+        // Lancer l'écran de veille en utilisant la commande "open"
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
+        task.launch()
+        
+        // Empêcher la mise en veille de l'écran
+        disableDisplaySleep()
+    }
+    
+    func launchScreensaverAndPreventSystemSleep() {
+        // Lancer l'écran de veille en utilisant la commande "open"
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
+        task.launch()
+        
         disableSystemSleep()
     }
 

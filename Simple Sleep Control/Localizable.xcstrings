@@ -171,6 +171,40 @@
         }
       }
     },
+    "Big thanks to Alberto Pasca" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Großen Dank an Alberto Pasca"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un gran agradecimiento a Alberto Pasca"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un grand merci à Alberto Pasca"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アルベルト・パスカに大きな感謝"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非常感谢Alberto Pasca"
+          }
+        }
+      }
+    },
     "Donate with PayPal" : {
       "localizations" : {
         "de" : {
@@ -378,6 +412,74 @@
         }
       }
     },
+    "Launch Screensaver and Prevent Display Sleep" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmschoner starten und Display-Schlaf verhindern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar salvapantallas y evitar suspensión de la pantalla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancer l’économiseur d’écran et empêcher l’écran de s’éteindre"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンセーバーを起動してディスプレイのスリープを防止する"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启动屏幕保护程序并防止显示屏休眠"
+          }
+        }
+      }
+    },
+    "Launch Screensaver and Prevent System Sleep" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmschoner starten und System-Schlaf verhindern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar salvapantallas y evitar suspensión del sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancer l’économiseur d’écran et empêcher l’ordinateur de s’éteindre"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンセーバーを起動してシステムのスリープを防止する"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启动屏幕保护程序并防止系统休眠"
+          }
+        }
+      }
+    },
     "Lock Screen and Prevent Display Sleep" : {
       "localizations" : {
         "de" : {
@@ -429,7 +531,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verrouiller l’écran et Empêcher le système de s’éteindre"
+            "value" : "Verrouiller l’écran et empêcher le système de s’éteindre"
           }
         },
         "ja" : {
