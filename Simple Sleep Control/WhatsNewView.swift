@@ -8,10 +8,25 @@
 import SwiftUI
 
 struct WhatsNewView: View {
+    
+    var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+    
     var body: some View {
         VStack {
             Spacer()
 
+            Text("Simple Sleep Control")
+                .font(.system(size: 25))
+                .padding(.bottom, 10)
+            
+            Text("V \(appVersion)")
+                .font(.system(size: 10))
+                .padding(.bottom, 10)
+            
+            Spacer()
+            
             Text("What's New in Simple Sleep Control")
                 .font(.title)
                 .padding()
@@ -27,19 +42,19 @@ struct WhatsNewView: View {
                 NSApp.keyWindow?.close()
             }) {
                 Text("OK")
-                    .font(.title3)
-                    .bold()
+                    .font(.system(size: 13))
                     .padding()
-                    .frame(width: 70)
+                    .frame(width: 60)
+                    .frame(height: 30)
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .buttonStyle(PlainButtonStyle())
+                    .cornerRadius(7)
+                }
+                .buttonStyle(PlainButtonStyle())
 
             Spacer()
         }
-        .frame(minWidth: 400, minHeight: 200)
+        .frame(minWidth: 500, minHeight: 300)
     }
 }
 

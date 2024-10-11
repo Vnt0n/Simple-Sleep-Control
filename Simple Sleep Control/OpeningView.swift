@@ -9,8 +9,11 @@ import SwiftUI
 
 struct OpeningView: View {
     @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
-    @State private var dontShowAgain = false
 
+    var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+    
     var body: some View {
         VStack {
             Spacer()
@@ -19,7 +22,7 @@ struct OpeningView: View {
                 .font(.system(size: 25))
                 .padding(.bottom, 10)
             
-            Text("Version 1.0.0")
+            Text("V \(appVersion)")
                 .font(.system(size: 10))
                 .padding(.bottom, 10)
 
@@ -38,12 +41,8 @@ struct OpeningView: View {
                 .foregroundColor(.blue)
             
             Spacer()
-            
-            Toggle("Don't show again ", isOn: $dontShowAgain)
-                .padding()
 
             Button(action: {
-                UserDefaults.standard.set(dontShowAgain, forKey: "DontShowOpeningViewAgain")
                 dismiss()
             }) {
             Text("OK")

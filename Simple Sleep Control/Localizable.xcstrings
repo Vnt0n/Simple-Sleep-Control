@@ -69,9 +69,6 @@
         }
       }
     },
-    "Afficher WhatsNew" : {
-
-    },
     "An app by" : {
       "localizations" : {
         "de" : {
@@ -170,40 +167,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "并在这里查看我的其他应用程序："
-          }
-        }
-      }
-    },
-    "Don't show again " : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nicht mehr anzeigen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No mostrar de nuevo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ne plus afficher"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "二度と表示しない"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不再显示"
           }
         }
       }
@@ -551,9 +514,6 @@
         }
       }
     },
-    "Reset Onboarding" : {
-
-    },
     "Simple Sleep Control" : {
 
     },
@@ -591,7 +551,7 @@
         }
       }
     },
-    "Version 1.0.0" : {
+    "V %@" : {
 
     },
     "vnton.xyz" : {

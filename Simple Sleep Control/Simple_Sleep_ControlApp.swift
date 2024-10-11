@@ -82,20 +82,20 @@ struct SimpleSleepControlApp: App {
                 }
                 
 // //////////////////////////// Bouton pour afficher WhatsNewView ////////////////////////////////////////////////
-                Divider()
-                Button(action: {
-                    viewModel.showWhatsNewWindow()
-                }) {
-                    HStack {
-                        Text("Afficher WhatsNew")
-                    }
-                }
-// //////////////////////////// Bouton pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
-                Button(action: {
-                    viewModel.resetOnboarding()
-                }) {
-                    Text("Reset Onboarding")
-                }
+//                Divider()
+//                Button(action: {
+//                    viewModel.showWhatsNewWindow()
+//                }) {
+//                    HStack {
+//                        Text("Afficher WhatsNew")
+//                    }
+//                }
+// //////////////////////////// Bouton pour réinitialiser First Launch UserDefaults ////////////////////////////////////////////////
+//                Button(action: {
+//                    viewModel.resetFirstLaunch()
+//                }) {
+//                    Text("Reset First Launch")
+//                }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
             }
@@ -119,16 +119,17 @@ class SimpleSleepControlViewModel: ObservableObject {
 
     @Published var isDisplaySleepDisabled: Bool = false
     @Published var isSystemSleepDisabled: Bool = false
-    @Published var showOpeningView: Bool = !UserDefaults.standard.bool(forKey: "DontShowOpeningViewAgain")
+    @Published var showOpeningView: Bool = false
     @Published var showWhatsNewView: Bool = false
 
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
 
     init() {
         isLoginItemEnabled = SMAppService.mainApp.status == .enabled
-
+        
+        checkForFirstLaunch()
         checkForAppUpdate()
-
+        
         // Vérifier si l'OpeningView doit être affichée
         DispatchQueue.main.async {
             if self.showOpeningView {
@@ -137,7 +138,19 @@ class SimpleSleepControlViewModel: ObservableObject {
         }
     }
     
-    // Vérification de la mise à jour de l'application et réinitialisation de l'affichage du What's New
+    // Vérification du premier lancement
+    private func checkForFirstLaunch() {
+        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "IsFirstLaunch")
+        
+        if isFirstLaunch {
+            // Marquer que l'application a été lancée pour la première fois
+            UserDefaults.standard.set(true, forKey: "IsFirstLaunch")
+            // Afficher OpeningView lors du premier lancement
+            showOpeningView = true
+        }
+    }
+    
+    // Vérification de la mise à jour de l'application et réinitialisation de l'affichage du "What's New"
     private func checkForAppUpdate() {
         let lastKnownVersion = UserDefaults.standard.string(forKey: "LastKnownAppVersion")
 
@@ -145,10 +158,14 @@ class SimpleSleepControlViewModel: ObservableObject {
             // Si la version a changé, réinitialiser l'état de la vue "What's New"
             UserDefaults.standard.set(false, forKey: "DontShowWhatsNewViewAgain")
             UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
-            showWhatsNewView = true
+            
+            // Ne pas afficher "What's New" si c'est le premier lancement
+            if !showOpeningView {
+                showWhatsNewView = true
+            }
         } else {
             // Si la vue ne doit pas être affichée, vérifier l'état du UserDefault
-            showWhatsNewView = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain")
+            showWhatsNewView = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain") && !showOpeningView
         }
 
         // Afficher la fenêtre "What's New" si nécessaire
@@ -172,7 +189,7 @@ class SimpleSleepControlViewModel: ObservableObject {
         }
     }
 
-    // Afficher la fenêtre d'ouverture
+    // Fonction pour afficher la fenêtre d'ouverture (OpeningView)
     func showOpeningWindow() {
         let openingView = NSHostingController(rootView: OpeningView())
         let openingWindow = NSWindow(contentViewController: openingView)
@@ -190,10 +207,10 @@ class SimpleSleepControlViewModel: ObservableObject {
             disableDisplaySleep()
 
             if isSystemSleepDisabled {
-                // Libérer l'assertion de mise en veille du système si elle est encore active
+
                 enableSystemSleep()
             }
-            isSystemSleepDisabled = false // Assurer l'exclusion mutuelle et synchroniser l'état
+            isSystemSleepDisabled = false
         }
         updateMenuIcon()
     }
@@ -305,7 +322,6 @@ class SimpleSleepControlViewModel: ObservableObject {
         let whatsNewWindow = NSWindow(contentViewController: whatsNewView)
         whatsNewWindow.styleMask = [.titled, .closable]
         whatsNewWindow.title = "What's New"
-        whatsNewWindow.setContentSize(NSSize(width: 400, height: 200))
         whatsNewWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
 
@@ -313,10 +329,10 @@ class SimpleSleepControlViewModel: ObservableObject {
         UserDefaults.standard.set(true, forKey: "DontShowWhatsNewViewAgain")
     }
     
-// //////////////////////////// Fonction pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
-    func resetOnboarding() {
-        UserDefaults.standard.set(false, forKey: "DontShowOpeningViewAgain")
-        showOpeningView = true // Réinitialiser l'état pour afficher l'OpeningView
+// //////////////////////////// Fonction pour réinitialiser First Launch UserDefaults ////////////////////////////////////////////////
+    func resetFirstLaunch() {
+        UserDefaults.standard.set(false, forKey: "IsFirstLaunch")
+        showOpeningView = true
     }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

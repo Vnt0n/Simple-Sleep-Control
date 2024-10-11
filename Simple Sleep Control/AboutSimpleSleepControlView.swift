@@ -10,6 +10,10 @@ import SwiftUI
 struct AboutSimpleSleepControlView: View {
     @Environment(\.dismiss) var dismiss  // Ajoute l'action dismiss
 
+    var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+    
     var body: some View {
         VStack {
             Spacer()
@@ -18,7 +22,7 @@ struct AboutSimpleSleepControlView: View {
                 .font(.system(size: 25))
                 .padding(.bottom, 10)
             
-            Text("Version 1.0.0")
+            Text("V \(appVersion)")
                 .font(.system(size: 10))
                 .padding(.bottom, 10)
 
