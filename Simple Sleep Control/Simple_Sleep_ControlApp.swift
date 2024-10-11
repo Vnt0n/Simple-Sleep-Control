@@ -120,15 +120,41 @@ class SimpleSleepControlViewModel: ObservableObject {
     @Published var isDisplaySleepDisabled: Bool = false
     @Published var isSystemSleepDisabled: Bool = false
     @Published var showOpeningView: Bool = !UserDefaults.standard.bool(forKey: "DontShowOpeningViewAgain")
-    @Published var showWhatsNewView: Bool = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain")
+    @Published var showWhatsNewView: Bool = false
+
+    private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
 
     init() {
         isLoginItemEnabled = SMAppService.mainApp.status == .enabled
-        
+
+        checkForAppUpdate()
+
         // Vérifier si l'OpeningView doit être affichée
         DispatchQueue.main.async {
             if self.showOpeningView {
                 self.showOpeningWindow()
+            }
+        }
+    }
+    
+    // Vérification de la mise à jour de l'application et réinitialisation de l'affichage du What's New
+    private func checkForAppUpdate() {
+        let lastKnownVersion = UserDefaults.standard.string(forKey: "LastKnownAppVersion")
+
+        if lastKnownVersion != currentAppVersion {
+            // Si la version a changé, réinitialiser l'état de la vue "What's New"
+            UserDefaults.standard.set(false, forKey: "DontShowWhatsNewViewAgain")
+            UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
+            showWhatsNewView = true
+        } else {
+            // Si la vue ne doit pas être affichée, vérifier l'état du UserDefault
+            showWhatsNewView = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain")
+        }
+
+        // Afficher la fenêtre "What's New" si nécessaire
+        if showWhatsNewView {
+            DispatchQueue.main.async {
+                self.showWhatsNewWindow()
             }
         }
     }
@@ -273,7 +299,7 @@ class SimpleSleepControlViewModel: ObservableObject {
         NSApp.activate(ignoringOtherApps: true)
     }
     
-    // Afficher la fenêtre "What's New"
+    // Fonction pour afficher la fenêtre "What's New"
     func showWhatsNewWindow() {
         let whatsNewView = NSHostingController(rootView: WhatsNewView())
         let whatsNewWindow = NSWindow(contentViewController: whatsNewView)
@@ -282,6 +308,9 @@ class SimpleSleepControlViewModel: ObservableObject {
         whatsNewWindow.setContentSize(NSSize(width: 400, height: 200))
         whatsNewWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+
+        // Marquer la vue comme vue
+        UserDefaults.standard.set(true, forKey: "DontShowWhatsNewViewAgain")
     }
     
 // //////////////////////////// Fonction pour réinitialiser OpeningView UserDefaults ////////////////////////////////////////////////
