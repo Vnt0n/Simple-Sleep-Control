@@ -384,21 +384,31 @@ class SimpleSleepControlViewModel: ObservableObject {
     }
     
     func deactivateIfLowBattery() {
-        if let batteryInfo = getBatteryInfo(), let currentCapacity = batteryInfo["CurrentCapacity"] as? Int, let maxCapacity = batteryInfo["MaxCapacity"] as? Int {
-            let batteryPercentage = (Double(currentCapacity) / Double(maxCapacity)) * 100
-            print("Battery level: \(batteryPercentage)%")
-            
-            if batteryPercentage <= 10 {
-                print("Battery level is \(batteryPercentage)%, deactivating all features")
-                deactivateAllFeatures()
+        // Récupérer les informations sur la batterie
+        if let batteryInfo = getBatteryInfo() {
+            // Vérifier que les capacités actuelles et maximales sont présentes
+            if let currentCapacity = batteryInfo["Current Capacity"] as? Int,
+               let maxCapacity = batteryInfo["Max Capacity"] as? Int {
+               
+                let batteryPercentage = (Double(currentCapacity) / Double(maxCapacity)) * 100
+                print("Battery level: \(batteryPercentage)%")
+                
+                // Si le pourcentage de batterie est inférieur ou égal à 10 %, désactiver les fonctionnalités
+                if batteryPercentage <= 10 {
+                    print("Battery level is \(batteryPercentage)%, deactivating all features")
+                    deactivateAllFeatures()
+                } else {
+                    print("Battery level is sufficient: \(batteryPercentage)%")
+                }
             } else {
-                print("Battery level is sufficient: \(batteryPercentage)%")
+                // Si les capacités ne sont pas présentes, afficher un message d'erreur plus spécifique
+                print("Missing battery capacity information")
             }
         } else {
+            // Si aucune information sur la batterie n'est disponible
             print("Unable to retrieve battery information")
         }
     }
-    
     private func deactivateAllFeatures() {
         enableDisplaySleep()  // Remettre la mise en veille de l'écran
         enableSystemSleep()   // Remettre la mise en veille du système
