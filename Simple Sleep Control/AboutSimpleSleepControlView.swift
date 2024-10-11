@@ -40,6 +40,9 @@ struct AboutSimpleSleepControlView: View {
                 .bold()
                 .foregroundColor(.blue)
             
+            Text("Big thanks to Alberto Pasca")
+                .font(.system(size: 8))
+            
             Spacer()
             
             Button(action: {

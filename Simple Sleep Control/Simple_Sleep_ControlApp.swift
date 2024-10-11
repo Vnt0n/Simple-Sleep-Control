@@ -8,6 +8,7 @@
 import SwiftUI
 import IOKit.pwr_mgt
 import ServiceManagement
+import Foundation
 
 @main
 struct SimpleSleepControlApp: App {
@@ -51,6 +52,24 @@ struct SimpleSleepControlApp: App {
                         Text("Launch at login")
                     }
                 }
+                
+                Divider()
+
+                Button(action: {
+                    viewModel.lockScreenAndPreventDisplaySleep()
+                }) {
+                    HStack {
+                        Text("Lock Screen and Prevent Display Sleep")
+                    }
+                }
+                
+                Button(action: {
+                    viewModel.lockScreenAndPreventSystemSleep()
+                }) {
+                    HStack {
+                        Text("Lock Screen and Prevent System Sleep")
+                    }
+                }
 
                 Divider()
 
@@ -61,7 +80,6 @@ struct SimpleSleepControlApp: App {
                         Text("About me")
                     }
                 }
-                
                 
                 Button(action: {
                     viewModel.showAboutSimpleSleepControl()
@@ -283,6 +301,32 @@ class SimpleSleepControlViewModel: ObservableObject {
         if result == kIOReturnSuccess {
             isSystemSleepDisabled = false
         }
+    }
+    
+    func lockScreenAndPreventDisplaySleep() {
+        // Verrouiller l'écran
+        let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
+        let sym = dlsym(libHandle, "SACLockScreenImmediate")
+        typealias myFunction = @convention(c) () -> Void
+
+        let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
+        SACLockScreenImmediate()
+
+        // Désactiver la mise en veille de l'écran
+        disableDisplaySleep()
+    }
+    
+    func lockScreenAndPreventSystemSleep() {
+        // Verrouiller l'écran
+        let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
+        let sym = dlsym(libHandle, "SACLockScreenImmediate")
+        typealias myFunction = @convention(c) () -> Void
+
+        let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
+        SACLockScreenImmediate()
+
+        // Désactiver la mise en veille de l'écran
+        disableSystemSleep()
     }
 
     // Mise à jour de l'icône de la barre de menu
