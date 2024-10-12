@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    " If you value my work, you can donate a small amount. ❤️" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du meine Arbeit schätzt, kannst du einen kleinen Betrag spenden. ❤️"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si valoras mi trabajo, puedes donar una pequeña cantidad. ❤️"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous appréciez mon travail, vous pouvez faire un don. ❤️"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "私の仕事を評価していただけるなら、少額の寄付をお願いします。❤️"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你重视我的工作，你可以捐赠一小笔款项。❤️"
+          }
+        }
+      }
+    },
     "About me" : {
       "localizations" : {
         "de" : {
@@ -310,36 +344,36 @@
     "Here are the latest updates and features..." : {
 
     },
-    "I like to make free apps, with no ads, lightweight," : {
+    "I like to make apps, with no ads, lightweight," : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ich mache gerne kostenlose Apps, ohne Werbung, leichtgewichtig,"
+            "value" : "Ich entwickle gerne Apps, die werbefrei und leichtgewichtig sind,"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Me gusta hacer aplicaciones gratuitas, sin anuncios, ligeras"
+            "value" : "Me gusta crear aplicaciones sin anuncios, ligeras,"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "J’aime créer des apps gratuites, sans publicité, légères,"
+            "value" : "J’aime créer des apps sans publicité, légères,"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無料アプリを作るのが好きで、広告なし、軽量、"
+            "value" : "広告なしの軽量アプリを作るのが好きで、"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我喜欢制作免费、无广告、轻量级的应用程序、"
+            "value" : "我喜欢制作没有广告、轻量级的应用程序"
           }
         }
       }
@@ -374,40 +408,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我是一名独立的法国开发者"
-          }
-        }
-      }
-    },
-    "If you value my work, please consider " : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wenn Sie meine Arbeit schätzen, überlegen Sie bitte"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Si valoras mi trabajo, por favor considera"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Si vous aimez mon travail, pensez à"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "もし私の作品を気に入っていただけたら"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "如果您看重我的工作，请考虑"
           }
         }
       }
@@ -721,36 +721,36 @@
     "Simple Sleep Control" : {
 
     },
-    "to donate a small amount for my job. ❤️" : {
+    "This app is open source and open price." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "einen kleinen Betrag für meine Arbeit zu spenden. ❤️"
+            "value" : "Diese App ist Open Source und hat einen offenen Preis."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "donar una pequeña cantidad para mi trabajo. ❤️"
+            "value" : "Esta aplicación es de código abierto y con precio abierto."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "me donner un petit quelque chose pour ma peine. ❤️"
+            "value" : "Cette app est open source et à prix libre."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "少額の寄付をお願いします。❤️"
+            "value" : "このアプリはオープンソースで、価格もオープンです。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "为我的工作捐献少量资金。❤️"
+            "value" : "这个应用程序是开源的，并且价格公开。"
           }
         }
       }

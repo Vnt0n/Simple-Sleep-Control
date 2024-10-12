@@ -26,16 +26,16 @@ struct AboutMeView: View {
             
             Spacer()
 
-            Text("I like to make free apps, with no ads, lightweight,")
+            Text("I like to make apps, with no ads, lightweight,")
                 .font(.system(size: 15))
             Text("and really simple to use, straight to the point.")
                 .font(.system(size: 15))
             
             Spacer()
 
-            Text("If you value my work, please consider ")
+            Text("This app is open source and open price.")
                 .font(.system(size: 15))
-            Text("to donate a small amount for my job. ❤️")
+            Text(" If you value my work, you can donate a small amount. ❤️")
                 .font(.system(size: 15))
             
             Spacer()
