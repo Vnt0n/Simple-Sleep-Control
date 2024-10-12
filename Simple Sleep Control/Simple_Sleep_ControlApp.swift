@@ -166,13 +166,11 @@ class SimpleSleepControlViewModel: ObservableObject {
     private var sleepAssertionID: IOPMAssertionID = 0
     private var systemSleepAssertionID: IOPMAssertionID = 0
     @Published var isLoginItemEnabled: Bool = false
-
     @Published var isDisplaySleepDisabled: Bool = false
     @Published var isSystemSleepDisabled: Bool = false
     @Published var showOpeningView: Bool = false
     @Published var showWhatsNewView: Bool = false
     @Published var isCriticalbatteryCharge: Bool = false
-
 
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
 
@@ -181,46 +179,176 @@ class SimpleSleepControlViewModel: ObservableObject {
         
         checkForFirstLaunch()
         checkForAppUpdate()
-        
-        // Vérifier si l'OpeningView doit être affichée
+
         DispatchQueue.main.async {
             if self.showOpeningView {
                 self.showOpeningWindow()
             }
         }
+
+        // Abonner aux notifications de déverrouillage de l'écran
+        subscribeToScreenUnlockNotifications()
     }
-    
+
+    private func subscribeToScreenUnlockNotifications() {
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(handleScreenUnlock),
+            name: NSNotification.Name("com.apple.screenIsUnlocked"),
+            object: nil
+        )
+    }
+
+    @objc private func handleScreenUnlock() {
+        deactivateAllFeatures()
+        updateMenuIcon()
+        print("Screen unlocked, deactivating all features")
+    }
+
+    // Désactiver toutes les fonctionnalités
+    private func deactivateAllFeatures() {
+        enableDisplaySleep()
+        enableSystemSleep()
+    }
+
+    // Activation/désactivation de la veille de l'écran
+    private func enableDisplaySleep() {
+        if isDisplaySleepDisabled {
+            let result = IOPMAssertionRelease(sleepAssertionID)
+            if result == kIOReturnSuccess {
+                isDisplaySleepDisabled = false
+            }
+        }
+    }
+
+    private func disableDisplaySleep() {
+        let result = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep as CFString,
+                                                 IOPMAssertionLevel(kIOPMAssertionLevelOn),
+                                                 "Prevent Display Sleep" as CFString,
+                                                 &sleepAssertionID)
+        if result == kIOReturnSuccess {
+            isDisplaySleepDisabled = true
+        }
+    }
+
+    // Activation/désactivation de la veille du système
+    private func enableSystemSleep() {
+        if isSystemSleepDisabled {
+            let result = IOPMAssertionRelease(systemSleepAssertionID)
+            if result == kIOReturnSuccess {
+                isSystemSleepDisabled = false
+            }
+        }
+    }
+
+    private func disableSystemSleep() {
+        let result = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoIdleSleep as CFString,
+                                                 IOPMAssertionLevel(kIOPMAssertionLevelOn),
+                                                 "Prevent System Sleep" as CFString,
+                                                 &systemSleepAssertionID)
+        if result == kIOReturnSuccess {
+            isSystemSleepDisabled = true
+        }
+    }
+
+    // Méthode utilitaire pour désactiver toutes les assertions en cours
+    private func resetSleepAssertions() {
+        enableDisplaySleep()
+        enableSystemSleep()
+    }
+
+    // Gérer la mise en veille de l'écran avec exclusion mutuelle
+    func toggleDisplaySleepMode() {
+        if isDisplaySleepDisabled {
+            enableDisplaySleep()
+        } else {
+            disableDisplaySleep()
+            if isSystemSleepDisabled {
+                enableSystemSleep()
+            }
+            isSystemSleepDisabled = false
+        }
+        updateMenuIcon()
+    }
+
+    // Gérer la mise en veille du système avec exclusion mutuelle
+    func toggleSystemSleepMode() {
+        if isSystemSleepDisabled {
+            enableSystemSleep()
+        } else {
+            disableSystemSleep()
+            if isDisplaySleepDisabled {
+                enableDisplaySleep()
+            }
+            isDisplaySleepDisabled = false
+        }
+        updateMenuIcon()
+    }
+
+    // Actions combinées pour verrouiller l'écran ou lancer l'écran de veille
+    func lockScreenAndPreventDisplaySleep() {
+        resetSleepAssertions() // Désactiver toutes les assertions avant de verrouiller l'écran
+        lockScreen()
+        disableDisplaySleep()
+    }
+
+    func lockScreenAndPreventSystemSleep() {
+        resetSleepAssertions() // Désactiver toutes les assertions avant de verrouiller l'écran
+        lockScreen()
+        disableSystemSleep()
+    }
+
+    func launchScreensaverAndPreventDisplaySleep() {
+        resetSleepAssertions() // Désactiver toutes les assertions avant de lancer l'écran de veille
+        launchScreensaver()
+        disableDisplaySleep()
+    }
+
+    func launchScreensaverAndPreventSystemSleep() {
+        resetSleepAssertions() // Désactiver toutes les assertions avant de lancer l'écran de veille
+        launchScreensaver()
+        disableSystemSleep()
+    }
+
+    // Fonction pour verrouiller l'écran
+    private func lockScreen() {
+        let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
+        let sym = dlsym(libHandle, "SACLockScreenImmediate")
+        typealias myFunction = @convention(c) () -> Void
+        let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
+        SACLockScreenImmediate()
+    }
+
+    // Fonction pour lancer l'écran de veille
+    private func launchScreensaver() {
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
+        task.launch()
+    }
+
     // Vérification du premier lancement
     private func checkForFirstLaunch() {
         let isFirstLaunch = !UserDefaults.standard.bool(forKey: "IsFirstLaunch")
-        
         if isFirstLaunch {
-            // Marquer que l'application a été lancée pour la première fois
             UserDefaults.standard.set(true, forKey: "IsFirstLaunch")
-            // Afficher OpeningView lors du premier lancement
             showOpeningView = true
         }
     }
-    
-    // Vérification de la mise à jour de l'application et réinitialisation de l'affichage du "What's New"
+
+    // Vérification de mise à jour de l'application et réinitialisation de l'affichage "What's New"
     private func checkForAppUpdate() {
         let lastKnownVersion = UserDefaults.standard.string(forKey: "LastKnownAppVersion")
-
         if lastKnownVersion != currentAppVersion {
-            // Si la version a changé, réinitialiser l'état de la vue "What's New"
             UserDefaults.standard.set(false, forKey: "DontShowWhatsNewViewAgain")
             UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
-            
-            // Ne pas afficher "What's New" si c'est le premier lancement
             if !showOpeningView {
                 showWhatsNewView = true
             }
         } else {
-            // Si la vue ne doit pas être affichée, vérifier l'état du UserDefault
             showWhatsNewView = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain") && !showOpeningView
         }
 
-        // Afficher la fenêtre "What's New" si nécessaire
         if showWhatsNewView {
             DispatchQueue.main.async {
                 self.showWhatsNewWindow()
@@ -241,187 +369,18 @@ class SimpleSleepControlViewModel: ObservableObject {
         }
     }
 
-    // Fonction pour afficher la fenêtre d'ouverture (OpeningView)
-    func showOpeningWindow() {
-        let openingView = NSHostingController(rootView: OpeningView())
-        let openingWindow = NSWindow(contentViewController: openingView)
-        openingWindow.styleMask = [.titled, .closable]
-        openingWindow.title = "Welcome to Simple Sleep Control"
-        openingWindow.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-    }
-    
-    // Gérer la mise en veille de l'écran avec exclusion mutuelle
-    func toggleDisplaySleepMode() {
-        if isDisplaySleepDisabled {
-            enableDisplaySleep()
-        } else {
-            disableDisplaySleep()
-
-            if isSystemSleepDisabled {
-
-                enableSystemSleep()
-            }
-            isSystemSleepDisabled = false
-        }
-        updateMenuIcon()
-    }
-
-    private func disableDisplaySleep() {
-        let result = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep as CFString,
-                                                 IOPMAssertionLevel(kIOPMAssertionLevelOn),
-                                                 "Prevent Display Sleep" as CFString,
-                                                 &sleepAssertionID)
-        if result == kIOReturnSuccess {
-            isDisplaySleepDisabled = true
-        }
-    }
-
-    private func enableDisplaySleep() {
-        let result = IOPMAssertionRelease(sleepAssertionID)
-        if result == kIOReturnSuccess {
-            isDisplaySleepDisabled = false
-        }
-    }
-    
-    func setDisplaySleepMode(isDisabled: Bool) {
-        if isDisabled {
-            disableDisplaySleep()
-            isSystemSleepDisabled = false // Exclusion mutuelle
-        } else {
-            enableDisplaySleep()
-        }
-        updateMenuIcon()
-    }
-
-    func setSystemSleepMode(isDisabled: Bool) {
-        if isDisabled {
-            disableSystemSleep()
-            isDisplaySleepDisabled = false // Exclusion mutuelle
-        } else {
-            enableSystemSleep()
-        }
-        updateMenuIcon()
-    }
-
-    // Gérer la mise en veille du système avec exclusion mutuelle
-    func toggleSystemSleepMode() {
-        if isSystemSleepDisabled {
-            enableSystemSleep()
-        } else {
-            disableSystemSleep()
-
-            if isDisplaySleepDisabled {
-                // Libérer l'assertion de mise en veille de l'écran si elle est encore active
-                enableDisplaySleep()
-            }
-            isDisplaySleepDisabled = false // Assurer l'exclusion mutuelle et synchroniser l'état
-        }
-        updateMenuIcon()
-    }
-
-    private func disableSystemSleep() {
-        let result = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoIdleSleep as CFString,
-                                                 IOPMAssertionLevel(kIOPMAssertionLevelOn),
-                                                 "Prevent System Sleep" as CFString,
-                                                 &systemSleepAssertionID)
-        if result == kIOReturnSuccess {
-            isSystemSleepDisabled = true
-        }
-    }
-
-    private func enableSystemSleep() {
-        let result = IOPMAssertionRelease(systemSleepAssertionID)
-        if result == kIOReturnSuccess {
-            isSystemSleepDisabled = false
-        }
-    }
-    
-    func lockScreenAndPreventDisplaySleep() {
-        // Vérifier et désactiver la mise en veille du système si activée
-        if isSystemSleepDisabled {
-            enableSystemSleep()
-            isSystemSleepDisabled = false
-        }
-        
-        // Verrouiller l'écran
-        let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
-        let sym = dlsym(libHandle, "SACLockScreenImmediate")
-        typealias myFunction = @convention(c) () -> Void
-        let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
-        SACLockScreenImmediate()
-
-        // Désactiver la mise en veille de l'écran
-        disableDisplaySleep()
-    }
-    
-    func lockScreenAndPreventSystemSleep() {
-        // Vérifier et désactiver la mise en veille de l'écran si activée
-        if isDisplaySleepDisabled {
-            enableDisplaySleep()
-            isDisplaySleepDisabled = false
-        }
-        
-        // Verrouiller l'écran
-        let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
-        let sym = dlsym(libHandle, "SACLockScreenImmediate")
-        typealias myFunction = @convention(c) () -> Void
-        let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
-        SACLockScreenImmediate()
-
-        // Désactiver la mise en veille du système
-        disableSystemSleep()
-    }
-    
-    func launchScreensaverAndPreventDisplaySleep() {
-        // Vérifier et désactiver la mise en veille du système si activée
-        if isSystemSleepDisabled {
-            enableSystemSleep()
-            isSystemSleepDisabled = false
-        }
-        
-        // Lancer l'écran de veille
-        let task = Process()
-        task.launchPath = "/usr/bin/open"
-        task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
-        task.launch()
-        
-        // Désactiver la mise en veille de l'écran
-        disableDisplaySleep()
-    }
-    
-    func launchScreensaverAndPreventSystemSleep() {
-        // Vérifier et désactiver la mise en veille de l'écran si activée
-        if isDisplaySleepDisabled {
-            enableDisplaySleep()
-            isDisplaySleepDisabled = false
-        }
-        
-        // Lancer l'écran de veille
-        let task = Process()
-        task.launchPath = "/usr/bin/open"
-        task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
-        task.launch()
-        
-        // Désactiver la mise en veille du système
-        disableSystemSleep()
-    }
-    
+    // Gérer la batterie
     func deactivateIfLowBattery() {
-        // Récupérer les informations sur la batterie
         if let batteryInfo = getBatteryInfo() {
-            // Vérifier que les capacités actuelles et maximales sont présentes
             if let currentCapacity = batteryInfo[kIOPSCurrentCapacityKey] as? Int,
-               let maxCapacity = batteryInfo[kIOPSMaxCapacityKey] as? Int,
-               maxCapacity > 0 {
+               let maxCapacity = batteryInfo[kIOPSMaxCapacityKey] as? Int, maxCapacity > 0 {
                 
                 let batteryPercentage = (Double(currentCapacity) / Double(maxCapacity)) * 100
                 print("Battery level: \(batteryPercentage)%")
-                
-                // Si le pourcentage de batterie est inférieur ou égal à 10 %, désactiver les fonctionnalités
                 if batteryPercentage <= 10 {
                     print("Battery level is \(batteryPercentage)%, deactivating all features")
                     deactivateAllFeatures()
+                    updateMenuIcon()
                 } else {
                     print("Battery level is sufficient: \(batteryPercentage)%")
                 }
@@ -432,45 +391,33 @@ class SimpleSleepControlViewModel: ObservableObject {
             print("Unable to retrieve battery information.")
         }
     }
-    
-    private func deactivateAllFeatures() {
-        enableDisplaySleep()  // Remettre la mise en veille de l'écran
-        enableSystemSleep()   // Remettre la mise en veille du système
-    }
-    
+
     private func getBatteryInfo() -> [String: AnyObject]? {
         let blob = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let sources = IOPSCopyPowerSourcesList(blob).takeRetainedValue() as NSArray
-        
+
         for source in sources {
             let powerSource = source as CFTypeRef
             let description = IOPSGetPowerSourceDescription(blob, powerSource).takeUnretainedValue() as! [String: AnyObject]
-            
-            // Vérifier si la source d'alimentation est une batterie
-            if let powerSourceType = description[kIOPSPowerSourceStateKey] as? String,
-               powerSourceType == kIOPSBatteryPowerValue {
+            if let powerSourceType = description[kIOPSPowerSourceStateKey] as? String, powerSourceType == kIOPSBatteryPowerValue {
                 return description
             }
         }
-        
-        // Si aucune batterie n'est trouvée, retourner nil
+
         print("No battery source found.")
         return nil
     }
-    
+
     var batteryCheckTimer: Timer?
 
     func toggleDeactivateIfLowBattery() {
         isCriticalbatteryCharge.toggle()
-        
         if isCriticalbatteryCharge {
-            // Démarrer la surveillance de la batterie toutes les minutes
             batteryCheckTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
                 self.deactivateIfLowBattery()
             }
             print("Battery level monitoring activated")
         } else {
-            // Arrêter la surveillance de la batterie
             batteryCheckTimer?.invalidate()
             batteryCheckTimer = nil
             enableDisplaySleep()
@@ -478,7 +425,7 @@ class SimpleSleepControlViewModel: ObservableObject {
             print("Battery level monitoring deactivated")
         }
     }
-    
+
     // Mise à jour de l'icône de la barre de menu
     private func updateMenuIcon() {
         if isSystemSleepDisabled {
@@ -486,11 +433,12 @@ class SimpleSleepControlViewModel: ObservableObject {
         } else if isDisplaySleepDisabled {
             menuIcon = "moon.zzz"
         } else {
+            print("Updating Menu Icon")
             menuIcon = "zzz"
         }
     }
 
-    // Afficher la fenêtre About Me
+    // Fonctions pour afficher les fenêtres "About" et "What's New"
     func showAboutMe() {
         let aboutView = NSHostingController(rootView: AboutMeView())
         let aboutWindow = NSWindow(contentViewController: aboutView)
@@ -499,8 +447,7 @@ class SimpleSleepControlViewModel: ObservableObject {
         aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
-    
-    // Afficher la fenêtre About Simple Sleep control
+
     func showAboutSimpleSleepControl() {
         let aboutAppView = NSHostingController(rootView: AboutSimpleSleepControlView())
         let aboutWindow = NSWindow(contentViewController: aboutAppView)
@@ -509,8 +456,7 @@ class SimpleSleepControlViewModel: ObservableObject {
         aboutWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
-    
-    // Fonction pour afficher la fenêtre "What's New"
+
     func showWhatsNewWindow() {
         let whatsNewView = NSHostingController(rootView: WhatsNewView())
         let whatsNewWindow = NSWindow(contentViewController: whatsNewView)
@@ -518,16 +464,22 @@ class SimpleSleepControlViewModel: ObservableObject {
         whatsNewWindow.title = "What's New"
         whatsNewWindow.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
-
-        // Marquer la vue comme vue
         UserDefaults.standard.set(true, forKey: "DontShowWhatsNewViewAgain")
     }
     
-// //////////////////////////// Fonction pour réinitialiser First Launch UserDefaults ////////////////////////////////////////////////
+    func showOpeningWindow() {
+        let openingView = NSHostingController(rootView: OpeningView())
+        let openingWindow = NSWindow(contentViewController: openingView)
+        openingWindow.styleMask = [.titled, .closable]
+        openingWindow.title = "Welcome to Simple Sleep Control"
+        openingWindow.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+
+    // Fonction pour réinitialiser First Launch UserDefaults
     func resetFirstLaunch() {
         UserDefaults.standard.set(false, forKey: "IsFirstLaunch")
         showOpeningView = true
     }
-// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }
