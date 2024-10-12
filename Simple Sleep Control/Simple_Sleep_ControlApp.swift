@@ -387,9 +387,10 @@ class SimpleSleepControlViewModel: ObservableObject {
         // Récupérer les informations sur la batterie
         if let batteryInfo = getBatteryInfo() {
             // Vérifier que les capacités actuelles et maximales sont présentes
-            if let currentCapacity = batteryInfo["Current Capacity"] as? Int,
-               let maxCapacity = batteryInfo["Max Capacity"] as? Int {
-               
+            if let currentCapacity = batteryInfo[kIOPSCurrentCapacityKey] as? Int,
+               let maxCapacity = batteryInfo[kIOPSMaxCapacityKey] as? Int,
+               maxCapacity > 0 {
+                
                 let batteryPercentage = (Double(currentCapacity) / Double(maxCapacity)) * 100
                 print("Battery level: \(batteryPercentage)%")
                 
@@ -401,12 +402,10 @@ class SimpleSleepControlViewModel: ObservableObject {
                     print("Battery level is sufficient: \(batteryPercentage)%")
                 }
             } else {
-                // Si les capacités ne sont pas présentes, afficher un message d'erreur plus spécifique
-                print("Missing battery capacity information")
+                print("Battery capacity information is missing or invalid.")
             }
         } else {
-            // Si aucune information sur la batterie n'est disponible
-            print("Unable to retrieve battery information")
+            print("Unable to retrieve battery information.")
         }
     }
     private func deactivateAllFeatures() {
@@ -418,40 +417,44 @@ class SimpleSleepControlViewModel: ObservableObject {
         let blob = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let sources = IOPSCopyPowerSourcesList(blob).takeRetainedValue() as NSArray
         
-        if sources.count == 0 {
-            print("No power sources found.")
-            return nil
+        for source in sources {
+            let powerSource = source as CFTypeRef
+            let description = IOPSGetPowerSourceDescription(blob, powerSource).takeUnretainedValue() as! [String: AnyObject]
+            
+            // Vérifier si la source d'alimentation est une batterie
+            if let powerSourceType = description[kIOPSPowerSourceStateKey] as? String,
+               powerSourceType == kIOPSBatteryPowerValue {
+                return description
+            }
         }
         
-        if let powerSource = sources.firstObject as? CFTypeRef {
-            if let description = IOPSGetPowerSourceDescription(blob, powerSource).takeUnretainedValue() as? [String: AnyObject] {
-                print("Battery info: \(description)")
-                return description
-            } else {
-                print("Unable to retrieve power source description.")
-                return nil
-            }
-        } else {
-            print("No valid power source found.")
-            return nil
-        }
+        // Si aucune batterie n'est trouvée, retourner nil
+        print("No battery source found.")
+        return nil
     }
-    
-    func toggleDeactivateIfLowBattery() {
-        // Inverser l'état de la variable
-        isCriticalbatteryCharge.toggle()
 
+    
+    var batteryCheckTimer: Timer?
+
+    func toggleDeactivateIfLowBattery() {
+        isCriticalbatteryCharge.toggle()
+        
         if isCriticalbatteryCharge {
-            // Si activé, vérifier immédiatement la batterie et désactiver si nécessaire
-            deactivateIfLowBattery()
+            // Démarrer la surveillance de la batterie toutes les minutes
+            batteryCheckTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+                self.deactivateIfLowBattery()
+            }
             print("Battery level monitoring activated")
         } else {
-            // Si désactivé, réactiver toutes les fonctionnalités
+            // Arrêter la surveillance de la batterie
+            batteryCheckTimer?.invalidate()
+            batteryCheckTimer = nil
             enableDisplaySleep()
             enableSystemSleep()
             print("Battery level monitoring deactivated")
         }
     }
+    
     
     // Mise à jour de l'icône de la barre de menu
     private func updateMenuIcon() {
