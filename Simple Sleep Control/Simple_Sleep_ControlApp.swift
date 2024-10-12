@@ -476,7 +476,6 @@ class SimpleSleepControlViewModel: ObservableObject {
         NSApp.activate(ignoringOtherApps: true)
     }
 
-
     // Fonction pour réinitialiser First Launch UserDefaults
     func resetFirstLaunch() {
         UserDefaults.standard.set(false, forKey: "IsFirstLaunch")
