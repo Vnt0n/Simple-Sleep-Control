@@ -338,11 +338,16 @@ class SimpleSleepControlViewModel: ObservableObject {
     }
     
     func lockScreenAndPreventDisplaySleep() {
+        // Vérifier et désactiver la mise en veille du système si activée
+        if isSystemSleepDisabled {
+            enableSystemSleep()
+            isSystemSleepDisabled = false
+        }
+        
         // Verrouiller l'écran
         let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
         let sym = dlsym(libHandle, "SACLockScreenImmediate")
         typealias myFunction = @convention(c) () -> Void
-
         let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
         SACLockScreenImmediate()
 
@@ -351,35 +356,54 @@ class SimpleSleepControlViewModel: ObservableObject {
     }
     
     func lockScreenAndPreventSystemSleep() {
+        // Vérifier et désactiver la mise en veille de l'écran si activée
+        if isDisplaySleepDisabled {
+            enableDisplaySleep()
+            isDisplaySleepDisabled = false
+        }
+        
         // Verrouiller l'écran
         let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
         let sym = dlsym(libHandle, "SACLockScreenImmediate")
         typealias myFunction = @convention(c) () -> Void
-
         let SACLockScreenImmediate = unsafeBitCast(sym, to: myFunction.self)
         SACLockScreenImmediate()
 
+        // Désactiver la mise en veille du système
         disableSystemSleep()
     }
     
     func launchScreensaverAndPreventDisplaySleep() {
-        // Lancer l'écran de veille en utilisant la commande "open"
+        // Vérifier et désactiver la mise en veille du système si activée
+        if isSystemSleepDisabled {
+            enableSystemSleep()
+            isSystemSleepDisabled = false
+        }
+        
+        // Lancer l'écran de veille
         let task = Process()
         task.launchPath = "/usr/bin/open"
         task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
         task.launch()
         
-        // Empêcher la mise en veille de l'écran
+        // Désactiver la mise en veille de l'écran
         disableDisplaySleep()
     }
     
     func launchScreensaverAndPreventSystemSleep() {
-        // Lancer l'écran de veille en utilisant la commande "open"
+        // Vérifier et désactiver la mise en veille de l'écran si activée
+        if isDisplaySleepDisabled {
+            enableDisplaySleep()
+            isDisplaySleepDisabled = false
+        }
+        
+        // Lancer l'écran de veille
         let task = Process()
         task.launchPath = "/usr/bin/open"
         task.arguments = ["/System/Library/CoreServices/ScreenSaverEngine.app"]
         task.launch()
         
+        // Désactiver la mise en veille du système
         disableSystemSleep()
     }
     
@@ -408,6 +432,7 @@ class SimpleSleepControlViewModel: ObservableObject {
             print("Unable to retrieve battery information.")
         }
     }
+    
     private func deactivateAllFeatures() {
         enableDisplaySleep()  // Remettre la mise en veille de l'écran
         enableSystemSleep()   // Remettre la mise en veille du système
@@ -432,7 +457,6 @@ class SimpleSleepControlViewModel: ObservableObject {
         print("No battery source found.")
         return nil
     }
-
     
     var batteryCheckTimer: Timer?
 
@@ -454,7 +478,6 @@ class SimpleSleepControlViewModel: ObservableObject {
             print("Battery level monitoring deactivated")
         }
     }
-    
     
     // Mise à jour de l'icône de la barre de menu
     private func updateMenuIcon() {
