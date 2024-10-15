@@ -141,11 +141,11 @@ struct SimpleSleepControlApp: App {
 //                    }
 //                }
 // //////////////////////////// Bouton pour réinitialiser First Launch UserDefaults ////////////////////////////////////////////////
-//                Button(action: {
-//                    viewModel.resetFirstLaunch()
-//                }) {
-//                    Text("Reset First Launch")
-//                }
+                Button(action: {
+                    viewModel.resetFirstLaunch()
+                }) {
+                    Text("Reset First Launch")
+                }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
             }
@@ -345,21 +345,38 @@ class SimpleSleepControlViewModel: ObservableObject {
 
     // Vérification de mise à jour de l'application et réinitialisation de l'affichage "What's New"
     private func checkForAppUpdate() {
+        // Récupérer le numéro de version actuel de l'app
+        let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+        
+        // Vérifier si l'application a déjà été lancée auparavant
+        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "HasLaunchedBefore")
+        
+        // Récupérer la dernière version connue de l'application stockée dans UserDefaults
         let lastKnownVersion = UserDefaults.standard.string(forKey: "LastKnownAppVersion")
-        if lastKnownVersion != currentAppVersion {
-            UserDefaults.standard.set(false, forKey: "DontShowWhatsNewViewAgain")
+
+        if !hasLaunchedBefore {
+            // Si c'est le premier lancement après installation, ne pas afficher la vue "What's New"
+            UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
             UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
-            if !showOpeningView {
-                showWhatsNewView = true
-            }
-        } else {
-            showWhatsNewView = !UserDefaults.standard.bool(forKey: "DontShowWhatsNewViewAgain") && !showOpeningView
+            return
+        }
+        
+        // Si l'app a été lancée auparavant, vérifier si la version a changé (indiquant une mise à jour)
+        if lastKnownVersion != currentAppVersion {
+            // Si la version a changé, afficher la vue "What's New"
+            UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
+            showWhatsNewView = true
         }
 
         if showWhatsNewView {
             DispatchQueue.main.async {
                 self.showWhatsNewWindow()
             }
+        }
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            print("App Version: \(appVersion)")
+        } else {
+            print("App Version not found")
         }
     }
 
