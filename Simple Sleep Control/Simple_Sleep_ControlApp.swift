@@ -150,8 +150,11 @@ struct SimpleSleepControlApp: App {
                 
             }
         } label: {
-            Image(systemName: viewModel.menuIcon)
-        }
+            if viewModel.isCustomImage {
+                Image(viewModel.menuIcon)
+            } else {
+                Image(systemName: viewModel.menuIcon)
+            }        }
         .onChange(of: viewModel.showOpeningView) { oldValue, newValue in
             if newValue {
                 viewModel.showOpeningWindow()
@@ -171,6 +174,10 @@ class SimpleSleepControlViewModel: ObservableObject {
     @Published var showOpeningView: Bool = false
     @Published var showWhatsNewView: Bool = false
     @Published var isCriticalbatteryCharge: Bool = false
+    
+    var isCustomImage: Bool {
+        return isSystemSleepDisabled || isDisplaySleepDisabled
+    }
 
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
 
@@ -428,12 +435,9 @@ class SimpleSleepControlViewModel: ObservableObject {
 
     // Mise à jour de l'icône de la barre de menu
     private func updateMenuIcon() {
-        if isSystemSleepDisabled {
-            menuIcon = "moon.zzz.fill"
-        } else if isDisplaySleepDisabled {
-            menuIcon = "moon.zzz"
+        if isSystemSleepDisabled || isDisplaySleepDisabled {
+            menuIcon = "zzz.custom.slash"
         } else {
-            print("Updating Menu Icon")
             menuIcon = "zzz"
         }
     }
