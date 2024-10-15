@@ -345,29 +345,36 @@ class SimpleSleepControlViewModel: ObservableObject {
 
     // Vérification de mise à jour de l'application et réinitialisation de l'affichage "What's New"
     private func checkForAppUpdate() {
-        // Récupérer le numéro de version actuel de l'app
+        // Récupérer la version actuelle de l'application
         let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
-        
-        // Vérifier si l'application a déjà été lancée auparavant
+
+        // Vérifier si l'application a déjà été lancée
         let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "HasLaunchedBefore")
-        
-        // Récupérer la dernière version connue de l'application stockée dans UserDefaults
-        let lastKnownVersion = UserDefaults.standard.string(forKey: "LastKnownAppVersion")
 
         if !hasLaunchedBefore {
-            // Si c'est le premier lancement après installation, ne pas afficher la vue "What's New"
+            // C'est la toute première ouverture après l'installation
+            print("Premier lancement après installation.")
+            // Enregistrer que l'application a déjà été lancée
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
+            // Enregistrer la version actuelle comme première version connue
             UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
+            // Ne pas afficher la WhatsNewView et quitter la fonction
             return
         }
-        
-        // Si l'app a été lancée auparavant, vérifier si la version a changé (indiquant une mise à jour)
+
+        // Récupérer la dernière version connue stockée dans les UserDefaults
+        let lastKnownVersion = UserDefaults.standard.string(forKey: "LastKnownAppVersion")
+
+        // Si la version a changé, afficher la WhatsNewView
         if lastKnownVersion != currentAppVersion {
-            // Si la version a changé, afficher la vue "What's New"
+            print("Nouvelle version détectée : \(currentAppVersion). Affichage de la vue What's New.")
+            // Mettre à jour la version connue avec la nouvelle version
             UserDefaults.standard.set(currentAppVersion, forKey: "LastKnownAppVersion")
+            // Activer l'affichage de la What's New View
             showWhatsNewView = true
         }
 
+        // Afficher la fenêtre What's New si elle doit être affichée
         if showWhatsNewView {
             DispatchQueue.main.async {
                 self.showWhatsNewWindow()
