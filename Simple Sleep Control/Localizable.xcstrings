@@ -341,9 +341,6 @@
         }
       }
     },
-    "Here are the latest updates and features..." : {
-
-    },
     "I like to make apps, with no ads, lightweight," : {
       "localizations" : {
         "de" : {
@@ -582,6 +579,9 @@
         }
       }
     },
+    "Nothing yet. Wait for a future update." : {
+
+    },
     "OK" : {
       "localizations" : {
         "de" : {
@@ -718,42 +718,39 @@
         }
       }
     },
-    "Reset First Launch" : {
-
-    },
     "Simple Sleep Control" : {
 
     },
-    "This app is open source and open price." : {
+    "This app is available for a voluntary contribution." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese App ist Open Source und hat einen offenen Preis."
+            "value" : "Diese App ist für einen freiwilligen Beitrag verfügbar."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta aplicación es de código abierto y con precio abierto."
+            "value" : "Esta aplicación está disponible por una contribución voluntaria."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette app est open source et à prix libre."
+            "value" : "Cette application est à prix libre."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このアプリはオープンソースで、価格もオープンです。"
+            "value" : "このアプリは任意の寄付でご利用いただけます。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这个应用程序是开源的，并且价格公开。"
+            "value" : "此应用程序可通过自愿捐款获得。"
           }
         }
       }

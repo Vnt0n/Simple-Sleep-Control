@@ -31,7 +31,7 @@ struct WhatsNewView: View {
                 .font(.title)
                 .padding()
 
-            Text("Here are the latest updates and features...")
+            Text("Nothing yet. Wait for a future update.")
                 .font(.body)
                 .padding()
 

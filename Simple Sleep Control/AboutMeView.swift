@@ -33,7 +33,7 @@ struct AboutMeView: View {
             
             Spacer()
 
-            Text("This app is open source and open price.")
+            Text("This app is available for a voluntary contribution.")
                 .font(.system(size: 15))
             Text(" If you value my work, you can donate a small amount. ❤️")
                 .font(.system(size: 15))
