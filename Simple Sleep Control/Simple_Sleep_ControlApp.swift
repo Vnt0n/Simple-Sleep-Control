@@ -141,11 +141,11 @@ struct SimpleSleepControlApp: App {
 //                    }
 //                }
 // //////////////////////////// Bouton pour réinitialiser First Launch UserDefaults ////////////////////////////////////////////////
-                Button(action: {
-                    viewModel.resetFirstLaunch()
-                }) {
-                    Text("Reset First Launch")
-                }
+//                Button(action: {
+//                    viewModel.resetFirstLaunch()
+//                }) {
+//                    Text("Reset First Launch")
+//                }
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
             }
